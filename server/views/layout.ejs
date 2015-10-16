@@ -4,23 +4,27 @@
     <title>Scrumboard</title>
   </head>
   <body>
-
-    <% if (!user) { %>
-      <p>
-      <a href="/">Home</a> |
-      <a href="/auth/google">Login with Google</a>
-      </p>
-    <% } else { %>
-      <p>
-      <a href="/">Home</a> |
-      <a href="/account">Account</a> |
-      <a href="/logout">Log Out</a>
-      </p>
-    <% } %>
-
     <%- body %>
 
     <div id="root"></div>
+
+    <% if (user) { %>
+      <script type="text/javascript">
+        window.__INITIAL_STATE__ = {
+          session: <%- (user) %>
+        };
+      </script>
+    <% } else { %>
+      <script type="text/javascript">
+        window.__INITIAL_STATE__ = {
+          session: {
+            displayName: null,
+            photos: null
+          }
+        };
+      </script>
+    <% } %>
+
     <script src="./static/bundle.js"></script>
   </body>
 </html>

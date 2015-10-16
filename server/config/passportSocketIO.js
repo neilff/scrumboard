@@ -7,7 +7,7 @@ const passportAuthorizeConfig = {
   secret: sessionOpts.secret,
   store: sessionStore,
   success: (data, accept) => {
-    console.log('successful connection to socket.io');
+    console.log('successful connection to socket.io', data);
     accept();
   },
   fail: (data, message, error, accept) => {

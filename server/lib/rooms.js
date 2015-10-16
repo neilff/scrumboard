@@ -14,7 +14,7 @@ var net  = require('net');
 
 // Dict mapping room names with people to sets of client objects.
 var rooms = {};
-// Dict mapping room names with people to sets of usernames.
+// Dict mapping room names with people to sets of displayNames.
 var room_users = {};
 // Dict mapping sids to sets of rooms.
 var sid_rooms = {};
@@ -22,7 +22,7 @@ var sid_rooms = {};
 
 // Add a client to a room and return the sid:client mapping.
 exports.add_to_room = function (client, room, callback) {
-    //console.log('Client ' + client.username + ' (' + client.id + ') added to room ' + room);
+    //console.log('Client ' + client.displayName + ' (' + client.id + ') added to room ' + room);
 
     if (!(sid_rooms.hasOwnProperty(client.id))) sid_rooms[client.id] = new sets.Set();
     sid_rooms[client.id].add(room);
@@ -31,12 +31,12 @@ exports.add_to_room = function (client, room, callback) {
     rooms[room].add(client);
 
     if (!(room_users.hasOwnProperty(room))) room_users[room] = new sets.Set();
-    room_users[room].add(client.username);
+    room_users[room].add(client.displayName);
 
     callback(rooms[room].array());
 };
 
-// Remove a client from all rooms and return the username:client
+// Remove a client from all rooms and return the displayName:client
 // mapping for everybody in those rooms.
 exports.remove_from_all_rooms = function (client, callback) {
     var affected_clients = new sets.Set();
@@ -50,7 +50,7 @@ exports.remove_from_all_rooms = function (client, callback) {
 		    delete rooms[room];
 	    }
 	    if (room_users.hasOwnProperty(room)) {
-		room_users[room].remove(client.username);
+		room_users[room].remove(client.displayName);
 		if (room_users[room].size() === 0)
 		    delete room_users[room];
 	    }
@@ -61,12 +61,12 @@ exports.remove_from_all_rooms = function (client, callback) {
 	    }
 	}
     }
-    //console.log('Client ' + client.username + ' (' + client.id + ') disconnected.');
+    //console.log('Client ' + client.displayName + ' (' + client.id + ') disconnected.');
     delete sid_rooms[client.id];
     callback(affected_clients.array());
 };
 
-// Remove a client from a room and return the username:client mapping
+// Remove a client from a room and return the displayName:client mapping
 // for everybody in that room. Returns [] if the room does not exist,
 // or if the client was not in the room to begin with.
 exports.remove_from_room = function(client, room, callback) {
@@ -90,7 +90,7 @@ exports.remove_from_room = function(client, room, callback) {
     }
 
     if (room_users.hasOwnProperty(room)) {
-    	room_users[room].remove(client.username);
+    	room_users[room].remove(client.displayName);
 
       if (room_users[room].size() === 0) {
         delete room_users[room];
@@ -112,12 +112,12 @@ exports.client_in_room = function(room, client) {
     return rooms.hasOwnProperty(room) && rooms[room].has(client);
 };
 
-// Return list of usernames in given room
+// Return list of displayNames in given room
 exports.users_in_room = function(room) {
     return room_users.hasOwnProperty(room) ? room_users[room].array() : [];
 };
 
-// Return list of usernames in given room
+// Return list of displayNames in given room
 exports.roomClients_other_than_me = function(room, client) {
 	if (rooms.hasOwnProperty(room))
 	{
@@ -141,8 +141,6 @@ exports.get_room = function (client) {
   if (sid_rooms.hasOwnProperty(client.id)) {
     client_rooms = sid_rooms[client.id].array();
   }
-
-  console.log('Checking client rooms...', client_rooms);
 
 	if (client_rooms !== null) {
 		return client_rooms[0];

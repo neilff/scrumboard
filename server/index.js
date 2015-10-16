@@ -28,18 +28,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session);
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.static(path.normalize(__dirname + '/../')));
 
 if (!isProduction) {
   require('./utils/bundler')(app);
 }
-
-configureRoutes(app);
 
 const server = http.createServer(app);
 
 const io = socketIo.listen(server)
   .use(passportSocketIo.authorize(passportAuthorizeConfig));
 
+configureRoutes(app, io);
 configureSocket(io);
 
 server.listen(PORT);

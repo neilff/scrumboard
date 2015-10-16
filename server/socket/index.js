@@ -5,8 +5,14 @@ import clientActions from './clientActions';
 
 function configureSocket(io) {
   io.on('connection', (socket, data) => {
-    socket.emit('connected', { username: socket.request.user.displayName });
-    console.log('Socket.io User Info ::', socket.request.user);
+    socket.id = socket.request.user.id;
+
+    socket.emit('connected', { displayName: socket.request.user.displayName });
+
+    console.log('Socket.io User Info ::', {
+      id: socket.request.user.id,
+      displayName: socket.request.user.displayName,
+    });
 
     socket.on('message', ({action, data}) => {
       console.log(action + ' -- ' + sys.inspect(data));
@@ -27,7 +33,6 @@ function configureSocket(io) {
         ['deleteColumn']: () => clientActions.onDeleteColumn(socket, data),
         ['updateColumns']: () => clientActions.onUpdateColumns(socket, data),
         ['settingsChange']: () => clientActions.onChangeSettings(socket, data),
-        ['setProfile']: () => clientActions.onSetProfile(socket, data),
         ['addSticker']: () => clientActions.onAddSticker(socket, data),
         ['setBoardSize']: () => clientActions.onSetBoardSize(socket, data),
       };

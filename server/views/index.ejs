@@ -2,20 +2,4 @@
   <h2>Welcome! Please log in.</h2>
 <% } else { %>
   <h2>You are logged in.</h2>
-
-  <% if (user) { %>
-    <script type="text/javascript">
-      window.__INITIAL_STATE__ = {
-        session: <%- (user) %>
-      };
-    </script>
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-      var socket = io.connect('http://scrumboard.ca:5001/');
-      socket.on('connected', function (data) {
-        console.log(data);
-      });
-    </script>
-  <% } %>
 <% } %>

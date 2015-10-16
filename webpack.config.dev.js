@@ -17,10 +17,25 @@ module.exports = {
     new webpack.NoErrorsPlugin()
   ],
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loaders: ['babel'],
-      include: path.join(__dirname, 'src')
-    }]
+    preLoaders: [
+      {
+        test: /\.js$/,
+        loader: 'source-map-loader'
+      }
+    ],
+    loaders: [
+      {
+        test: /\.js$/,
+        loaders: ['babel', 'eslint-loader'],
+        include: [
+          path.join(__dirname, 'src'),
+          path.join(__dirname, 'shared')
+        ]
+      },
+      {
+        test: /\.scss$/,
+        loaders: ['style', 'css', 'sass']
+      }
+    ]
   }
 };

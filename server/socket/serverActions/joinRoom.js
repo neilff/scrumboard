@@ -5,8 +5,8 @@ function joinRoom (client, roomId, cb) {
     action: 'join-announce',
     data: {
       sid: client.id,
-      username: client.username,
-      profileImage: client.profileImage
+      displayName: client.displayName,
+      photos: client.photos
     }
   };
 

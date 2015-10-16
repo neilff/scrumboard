@@ -7,7 +7,6 @@ const onCreateColumn = require('./onCreateColumn');
 const onDeleteColumn = require('./onDeleteColumn');
 const onUpdateColumns = require('./onUpdateColumns');
 const onChangeSettings = require('./onChangeSettings');
-const onSetProfile = require('./onSetProfile');
 const onAddSticker = require('./onAddSticker');
 const onSetBoardSize = require('./onSetBoardSize');
 
@@ -21,7 +20,6 @@ module.exports = {
   onDeleteColumn,
   onUpdateColumns,
   onChangeSettings,
-  onSetProfile,
   onAddSticker,
   onSetBoardSize,
 };

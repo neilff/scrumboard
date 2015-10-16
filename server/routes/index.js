@@ -1,7 +1,7 @@
 import ensureAuthenticated from '../middleware/ensureAuthenticated';
 import passport from '../config/passport';
 
-function configureRoutes(app) {
+function configureRoutes(app, io) {
   app.get('/', function (req, res) {
       res.render('index', { user: JSON.stringify(req.user) });
     });
@@ -10,10 +10,6 @@ function configureRoutes(app) {
     ensureAuthenticated,
     function(req, res) {
       res.render('account', { user: req.user });
-    });
-
-  app.get('/login', function(req, res) {
-      res.render('login', { user: req.user });
     });
 
   app.get('/auth/google', passport.authenticate('google', {
@@ -30,8 +26,9 @@ function configureRoutes(app) {
     });
 
   app.get('/logout', function(req, res) {
-      req.logout();
-      res.redirect('/');
+      req.session.destroy(err => {
+        res.redirect('/');
+      });
     });
 }
 

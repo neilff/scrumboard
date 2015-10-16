@@ -1,11 +1,11 @@
-'use strict';
+import { INIT_SESSION } from '../../../shared';
 
 const rooms = require('../../lib/rooms.js');
 const data  = require('../../lib/data.js').db;
 
 const db = new data(() => console.log('DB is online.'));
 
-//Map of sids to usernames
+//Map of sids to displayNames
 let sidsToUsernames = [];
 
 const joinRoom = require('./joinRoom');
@@ -18,14 +18,12 @@ const leaveRoom = require('./leaveRoom')
 const leaveAllRooms = require('./leaveAllRooms')(sidsToUsernames);
 
 function initClient(client, data) {
-  console.log('init client data :: ', data.username);
+  console.log('init client data :: ', data.displayName);
 
   getRoom(client, (room) => {
     console.log('Client is in room :: ', room);
 
     db.getAllCards(room, (cards) => {
-      console.log(cards);
-
       client.json.send({
         action: 'initCards',
         data: cards
@@ -40,8 +38,6 @@ function initClient(client, data) {
     });
 
     db.getSettings(room, (settings) => {
-      console.log('db.getSettings :: ', settings);
-
       if (settings === null) {
         settings = {
           theme: 'default',
@@ -64,16 +60,14 @@ function initClient(client, data) {
       }
     });
 
-    let roommatesClients = rooms.roomClients(room);
+    let clientsInRoom = rooms.roomClients(room);
 
-    console.log('roommatesClients :: ', roommatesClients.length);
-
-    let roommates = roommatesClients.reduce((acc, i) => {
+    let roommates = clientsInRoom.reduce((acc, i) => {
       if (i.id !== client.id) {
         acc.push({
           sid: i.id,
-          username:  sidsToUsernames[i.id],
-          profileImage: i.profileImage
+          displayName:  sidsToUsernames[i.id],
+          photos: i.photos
         });
       }
 
@@ -81,13 +75,6 @@ function initClient(client, data) {
     }, []);
 
     console.log('Current Roommates: ', roommates);
-
-    client.json.send({
-      action: 'initSession',
-      data: {
-        sid: client.id
-      }
-    });
 
     client.json.send({
       action: 'initialUsers',
