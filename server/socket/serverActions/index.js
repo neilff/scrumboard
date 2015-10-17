@@ -5,24 +5,24 @@ const data  = require('../../lib/data.js').db;
 
 const db = new data(() => console.log('DB is online.'));
 
-//Map of sids to displayNames
-let sidsToUsernames = [];
+// Map of sids to displayNames
+let idsToUsernames = [];
 
 const joinRoom = require('./joinRoom');
 const broadcastToRoommates = require('./broadcastToRoommates');
 const broadcastToRoom = require('./broadcastToRoom');
 const getRoom = require('./getRoom');
 const createCard = require('./createCard')(db);
-const setUserProfile = require('./setUserProfile')(sidsToUsernames);
+const setUserProfile = require('./setUserProfile')(idsToUsernames);
 const leaveRoom = require('./leaveRoom')
-const leaveAllRooms = require('./leaveAllRooms')(sidsToUsernames);
+const leaveAllRooms = require('./leaveAllRooms')(idsToUsernames);
 
 function initClient(client, data) {
-  console.log('init client data :: ', data.displayName);
+  console.log('init client data :: ', client.displayName);
+
+  idsToUsernames[client.id] = client.displayName;
 
   getRoom(client, (room) => {
-    console.log('Client is in room :: ', room);
-
     db.getAllCards(room, (cards) => {
       client.json.send({
         action: 'initCards',
@@ -64,9 +64,11 @@ function initClient(client, data) {
 
     let roommates = clientsInRoom.reduce((acc, i) => {
       if (i.id !== client.id) {
+        console.log(i.id);
+
         acc.push({
           sid: i.id,
-          displayName:  sidsToUsernames[i.id],
+          displayName:  idsToUsernames[i.id],
           photos: i.photos
         });
       }
@@ -74,7 +76,7 @@ function initClient(client, data) {
       return acc;
     }, []);
 
-    console.log('Current Roommates: ', roommates);
+    // console.log('clientsInRoom: ', clientsInRoom);
 
     client.json.send({
       action: 'initialUsers',

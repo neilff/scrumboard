@@ -17,6 +17,8 @@ import Lobby from './sections/Lobby';
 import Room from './sections/Room';
 import About from './sections/About';
 
+const rootElement = document.getElementById('root');
+
 const routes = (
   <Route path="/" component={ App }>
     <IndexRoute component={ Lobby } />
@@ -51,5 +53,5 @@ React.render(
         visibleOnLoad={ false } />
     </DebugPanel>
   </div>,
-  document.getElementById('root')
+  rootElement
 );

@@ -5,13 +5,17 @@ import clientActions from './clientActions';
 
 function configureSocket(io) {
   io.on('connection', (socket, data) => {
-    socket.id = socket.request.user.id;
+    const userProfile = socket.request.user;
 
-    socket.emit('connected', { displayName: socket.request.user.displayName });
+    socket.id = userProfile.id;
+    socket.displayName = userProfile.displayName;
+    socket.photos = userProfile.photos;
+
+    socket.emit('connected', { displayName: userProfile.displayName });
 
     console.log('Socket.io User Info ::', {
-      id: socket.request.user.id,
-      displayName: socket.request.user.displayName,
+      id: userProfile.id,
+      displayName: userProfile.displayName,
     });
 
     socket.on('message', ({action, data}) => {

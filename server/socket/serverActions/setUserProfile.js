@@ -1,9 +1,9 @@
-function loadSids(sidsToUsernames) {
+function loadSids(idsToUsernames) {
   return function setUserProfile(client, profile) {
     client.displayName = profile.displayName;
     client.photos = profile.photos;
 
-    sidsToUsernames[client.id] = profile.displayName;
+    idsToUsernames[client.id] = profile.displayName;
   }
 }
 

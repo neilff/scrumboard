@@ -4,27 +4,26 @@
     <title>Scrumboard</title>
   </head>
   <body>
-    <%- body %>
 
-    <div id="root"></div>
+  <%- body %>
 
-    <% if (user) { %>
-      <script type="text/javascript">
-        window.__INITIAL_STATE__ = {
-          session: <%- (user) %>
-        };
-      </script>
-    <% } else { %>
-      <script type="text/javascript">
-        window.__INITIAL_STATE__ = {
-          session: {
-            displayName: null,
-            photos: null
-          }
-        };
-      </script>
-    <% } %>
+  <% if (user) { %>
+    <script type="text/javascript">
+      window.__INITIAL_STATE__ = {
+        session: <%- (user) %>
+      };
+    </script>
+  <% } else { %>
+    <script type="text/javascript">
+      window.__INITIAL_STATE__ = {
+        session: {
+          displayName: null,
+          photos: null
+        }
+      };
+    </script>
+  <% } %>
 
-    <script src="./static/bundle.js"></script>
+  <script src="./static/bundle.js"></script>
   </body>
 </html>

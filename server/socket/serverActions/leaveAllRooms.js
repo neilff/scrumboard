@@ -1,6 +1,6 @@
 const rooms = require('../../lib/rooms.js');
 
-function loadSids(sidsToUsernames) {
+function loadSids(idsToUsernames) {
   return function leaveAllRooms (client) {
     console.log (client.id + ' just left');
     const msg = {
@@ -12,7 +12,7 @@ function loadSids(sidsToUsernames) {
 
     rooms.remove_from_all_rooms_and_announce(client, msg);
 
-    delete sidsToUsernames[client.id];
+    delete idsToUsernames[client.id];
   }
 }
 
