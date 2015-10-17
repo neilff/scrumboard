@@ -20,8 +20,6 @@ const Actions = {
   ...settingsActions,
 };
 
-console.log(Actions);
-
 @connect(roomSelector, Actions)
 class Room extends Component {
   static propTypes = {

@@ -1,9 +1,12 @@
-'use strict';
+import {
+  ON_SET_BOARD_SIZE
+} from '../../../shared';
+
+import { DB } from '../index';
 
 const scrub = require('../../utils').scrub;
 const getRoom = require('../serverActions').getRoom;
 const broadcastToRoommates = require('../serverActions').broadcastToRoommates;
-const db = require('../serverActions').db;
 
 function onSetBoardSize(client, data) {
   const size = {
@@ -12,11 +15,11 @@ function onSetBoardSize(client, data) {
   };
 
   getRoom(client, (room) => {
-    db.setBoardSize(room, size);
+    DB.setBoardSize(room, size);
   });
 
   broadcastToRoommates(client, {
-    action: 'setBoardSize',
+    action: ON_SET_BOARD_SIZE,
     data: size
   });
 }

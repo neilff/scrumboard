@@ -1,6 +1,13 @@
 import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
-import { ON_SETTINGS_CHANGE, SETTINGS_CHANGE } from '../constants';
+
+import {
+  ON_SET_CONFIG,
+} from '../../shared';
+
+import {
+  SET_CONFIG ,
+} from '../constants';
 
 const INITIAL_STATE = fromJS({
   theme: 'default',
@@ -8,8 +15,8 @@ const INITIAL_STATE = fromJS({
 });
 
 const settingsReducer = handleActions({
-  [SETTINGS_CHANGE]: (state, { payload }) => state.merge(payload.data),
-  [ON_SETTINGS_CHANGE]: (state, { payload }) => state.merge(payload),
+  [SET_CONFIG]: (state, { payload }) => state.merge(payload.data),
+  [ON_SET_CONFIG]: (state, { payload }) => state.merge(payload),
 }, INITIAL_STATE);
 
 export default settingsReducer;

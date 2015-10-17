@@ -69,7 +69,7 @@ class Board extends Component {
           revealEditCard={ revealEditCard }
           deleteCard={ deleteCard }
           saveCard={ saveCard }
-          text={ i.get('text') } />
+          text={ i.get('text', '') } />
       );
     });
 

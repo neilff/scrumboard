@@ -10,12 +10,15 @@ import {
   ON_ADD_STICKER,
   MOVE_CARD,
   DELETE_CARD,
-  SAVE_CARD,
+  EDIT_CARD,
+} from '../../shared';
+
+import {
   REVEAL_EDIT_CARD,
 } from '../constants';
 
 const initializeCards = (state, payload) => {
-  const cardMap = payload.cards.reduce((acc, i) => {
+  const cardMap = payload.reduce((acc, i) => {
     acc[i.id] = i;
     return acc;
   }, {});
@@ -24,29 +27,29 @@ const initializeCards = (state, payload) => {
 };
 
 const createCard = (state, payload) => {
-  return state.set(payload.data.id, fromJS(payload.data));
+  return state.set(payload.id, fromJS(payload));
 };
 
 const moveCard = (state, payload) => {
-  return state.mergeIn([payload.data.id], fromJS({
-    x: payload.data.position.left,
-    y: payload.data.position.top,
+  return state.mergeIn([payload.id], fromJS({
+    x: payload.position.left,
+    y: payload.position.top,
   }));
 };
 
 const saveCard = (state, payload) => {
-  return state.mergeIn([payload.data.id], {
+  return state.mergeIn([payload.id], {
     isEditing: false,
-    text: payload.data.text,
+    text: payload.text,
   });
 };
 
 const revealEdit = (state, id) => state.setIn([id, 'isEditing'], true);
-const deleteCard = (state, payload) => state.delete(payload.data.id);
+const deleteCard = (state, payload) => state.delete(payload.id);
 
 const addSticker = (state, payload) => {
-  return state.updateIn([payload.data.id, 'sticker'], i => {
-    return i.push(payload.data.stickerId);
+  return state.updateIn([payload.id, 'sticker'], i => {
+    return i.push(payload.stickerId);
   });
 };
 
@@ -60,7 +63,7 @@ const cardsReducer = handleActions({
   [ON_EDIT_CARD]: (state, { payload }) => saveCard(state, payload),
   [MOVE_CARD]: (state, { payload }) => moveCard(state, payload),
   [DELETE_CARD]: (state, { payload }) => deleteCard(state, payload),
-  [SAVE_CARD]: (state, { payload }) => saveCard(state, payload),
+  [EDIT_CARD]: (state, { payload }) => saveCard(state, payload),
   [REVEAL_EDIT_CARD]: (state, { payload }) => revealEdit(state, payload.id),
   [ON_ADD_STICKER]: (state, { payload }) => addSticker(state, payload),
 }, INITIAL_STATE);

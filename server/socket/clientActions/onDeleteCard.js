@@ -1,20 +1,23 @@
-'use strict';
+import {
+  ON_DELETE_CARD,
+} from '../../../shared';
+
+import { DB } from '../index';
 
 const scrub = require('../../utils').scrub;
 const getRoom = require('../serverActions').getRoom;
 const broadcastToRoommates = require('../serverActions').broadcastToRoommates;
-const db = require('../serverActions').db;
 
 function onDeleteCard(client, data) {
   const cleanMessage = {
-    action: 'deleteCard',
+    action: ON_DELETE_CARD,
     data: {
       id: scrub(data.id)
     }
   };
 
   getRoom(client, (room) => {
-    db.deleteCard(room, cleanMessage.data.id);
+    DB.deleteCard(room, cleanMessage.data.id);
   });
 
   //report to all other browsers

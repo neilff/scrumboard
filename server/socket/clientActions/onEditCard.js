@@ -1,9 +1,12 @@
-'use strict';
+import {
+  ON_EDIT_CARD,
+} from '../../../shared';
+
+import { DB } from '../index';
 
 const scrub = require('../../utils').scrub;
 const getRoom = require('../serverActions').getRoom;
 const broadcastToRoommates = require('../serverActions').broadcastToRoommates;
-const db = require('../serverActions').db;
 
 function onEditCard(client, data) {
   const cleanData = {
@@ -13,11 +16,11 @@ function onEditCard(client, data) {
 
   //send update to database
   getRoom(client, (room) => {
-    db.cardEdit(room, cleanData.id, cleanData.text);
+    DB.cardEdit(room, cleanData.id, cleanData.text);
   });
 
   const messageOut = {
-    action: 'editCard',
+    action: ON_EDIT_CARD,
     data: cleanData
   };
 

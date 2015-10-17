@@ -1,7 +1,25 @@
+import {
+  MOVE_CARD,
+  CREATE_CARD,
+  DELETE_CARD,
+  EDIT_CARD,
+  JOIN_ROOM,
+  LEAVE_ROOM,
+  SET_CONFIG,
+  SET_BOARD_SIZE,
+  CREATE_COLUMN,
+  DELETE_COLUMN,
+  UPDATE_COLUMNS,
+  ADD_STICKER,
+} from '../../shared';
+
 import sys from 'sys';
 import { scrub } from '../utils';
 import serverActions from './serverActions';
 import clientActions from './clientActions';
+
+import { db } from '../lib/data';
+export const DB = new db(() => console.log('DB is online.'));
 
 function configureSocket(io) {
   io.on('connection', (socket, data) => {
@@ -26,19 +44,18 @@ function configureSocket(io) {
       }
 
       const actionMap = {
-        ['initializeMe']: () => serverActions.initClient(socket, data),
-        ['joinRoom']: () => clientActions.onJoinRoom(socket, data),
-        ['leaveRoom']: () => serverActions.leaveRoom(socket, data),
-        ['moveCard']: () => clientActions.onMoveCard(socket, data),
-        ['createCard']: () => clientActions.onCreateCard(socket, data),
-        ['editCard']: () => clientActions.onEditCard(socket, data),
-        ['deleteCard']: () => clientActions.onDeleteCard(socket, data),
-        ['createColumn']: () => clientActions.onCreateColumn(socket, data),
-        ['deleteColumn']: () => clientActions.onDeleteColumn(socket, data),
-        ['updateColumns']: () => clientActions.onUpdateColumns(socket, data),
-        ['settingsChange']: () => clientActions.onChangeSettings(socket, data),
-        ['addSticker']: () => clientActions.onAddSticker(socket, data),
-        ['setBoardSize']: () => clientActions.onSetBoardSize(socket, data),
+        [JOIN_ROOM]: () => clientActions.onJoinRoom(socket, data),
+        [LEAVE_ROOM]: () => serverActions.leaveRoom(socket, data),
+        [MOVE_CARD]: () => clientActions.onMoveCard(socket, data),
+        [CREATE_CARD]: () => clientActions.onCreateCard(socket, data),
+        [EDIT_CARD]: () => clientActions.onEditCard(socket, data),
+        [DELETE_CARD]: () => clientActions.onDeleteCard(socket, data),
+        [CREATE_COLUMN]: () => clientActions.onCreateColumn(socket, data),
+        [DELETE_COLUMN]: () => clientActions.onDeleteColumn(socket, data),
+        [UPDATE_COLUMNS]: () => clientActions.onUpdateColumns(socket, data),
+        [SET_CONFIG]: () => clientActions.onChangeSettings(socket, data),
+        [ADD_STICKER]: () => clientActions.onAddSticker(socket, data),
+        [SET_BOARD_SIZE]: () => clientActions.onSetBoardSize(socket, data),
       };
 
       return actionMap[action] ?

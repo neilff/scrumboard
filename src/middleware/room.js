@@ -1,7 +1,7 @@
 import {
   JOIN_ROOM,
   LEAVE_ROOM,
-} from '../constants';
+} from '../../shared';
 
 import socket from '../socket';
 
@@ -22,7 +22,7 @@ const roomMiddleware = ({dispatch, getState}) => next => action => {
 
   if (leavingRoom) {
     socket.json.send({
-      action: 'leaveRoom',
+      action: LEAVE_ROOM,
       data: leavingRoom,
     });
 
@@ -34,7 +34,7 @@ const roomMiddleware = ({dispatch, getState}) => next => action => {
 
   if (joiningRoom) {
     socket.json.send({
-      action: 'joinRoom',
+      action: JOIN_ROOM,
       data: joiningRoom,
     });
 

@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
-import { ON_INIT_COLUMNS } from '../constants';
+import { ON_INIT_COLUMNS } from '../../shared';
 
 const INITIAL_STATE = fromJS([]);
 

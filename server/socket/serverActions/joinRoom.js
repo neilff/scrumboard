@@ -1,8 +1,12 @@
+import {
+  ON_USER_JOIN,
+} from '../../../shared';
+
 const rooms = require('../../lib/rooms.js');
 
 function joinRoom (client, roomId, cb) {
   const msg = {
-    action: 'join-announce',
+    action: ON_USER_JOIN,
     data: {
       sid: client.id,
       displayName: client.displayName,

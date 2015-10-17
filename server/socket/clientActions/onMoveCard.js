@@ -1,16 +1,18 @@
-'use strict';
+import {
+  ON_MOVE_CARD
+} from '../../../shared';
 
-const scrub = require('../../utils').scrub;
-const broadcastToRoommates = require('../serverActions').broadcastToRoommates;
-const getRoom = require('../serverActions').getRoom;
-const db = require('../serverActions').db;
+import { DB } from '../index';
+import { scrub } from '../../utils';
+import { broadcastToRoommates } from '../serverActions';
+import { getRoom } from '../serverActions';
 
 function onMoveCard(client, data) {
   const left = parseInt(scrub(data.position.left));
   const top = parseInt(scrub(data.position.top));
 
   const messageOut = {
-    action: 'moveCard',
+    action: ON_MOVE_CARD,
     data: {
       id: scrub(data.id),
       position: {
@@ -23,7 +25,7 @@ function onMoveCard(client, data) {
   broadcastToRoommates(client, messageOut);
 
   getRoom(client, (room) => {
-    db.cardSetXY(room, data.id, data.position.left, data.position.top);
+    DB.cardSetXY(room, data.id, data.position.left, data.position.top);
   });
 }
 

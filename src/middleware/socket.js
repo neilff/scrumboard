@@ -8,7 +8,10 @@ const socketMiddleware = ({dispatch}) => next => action => {
     return next(action);
   }
 
-  socket.json.send(socketAction.payload);
+  socket.json.send({
+    action: socketAction.type,
+    data: socketAction.payload,
+  });
 
   return dispatch(socketAction);
 };

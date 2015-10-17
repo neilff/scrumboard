@@ -1,9 +1,12 @@
-'use strict';
+import {
+  ON_UPDATE_COLUMNS
+} from '../../../shared';
+
+import { DB } from '../index';
 
 const scrub = require('../../utils').scrub;
 const getRoom = require('../serverActions').getRoom;
 const broadcastToRoommates = require('../serverActions').broadcastToRoommates;
-const db = require('../serverActions').db;
 
 function onUpdateColumns(client, data) {
   const columns = data;
@@ -19,11 +22,11 @@ function onUpdateColumns(client, data) {
   }
 
   getRoom(client, (room) => {
-    db.setColumns(room, cleanColumns);
+    DB.setColumns(room, cleanColumns);
   });
 
   broadcastToRoommates(client, {
-    action: 'updateColumns',
+    action: ON_UPDATE_COLUMNS,
     data: cleanColumns
   });
 }

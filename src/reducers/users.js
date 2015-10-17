@@ -2,16 +2,15 @@ import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
 
 import {
-  ON_INIT_USERS,
+  ON_INIT_ROOMMATES,
   ON_USER_JOIN,
   ON_USER_LEAVE,
-  ON_PROFILE_CHANGE,
-} from '../constants';
+} from '../../shared';
 
 const INITIAL_STATE = fromJS({});
 
-const initializeUsers = (state, payload) => {
-  const userMap = payload.users.reduce((acc, i) => {
+const initRoommates = (state, payload) => {
+  const userMap = payload.reduce((acc, i) => {
     acc[i.sid] = i;
 
     return acc;
@@ -20,15 +19,13 @@ const initializeUsers = (state, payload) => {
   return state.merge(fromJS(userMap));
 };
 
-const userAdd = (state, payload) => state.setIn([payload.user.sid], fromJS(payload.user));
-const userRemove = (state, payload) => state.filterNot(i => i.get('sid') === payload.user.sid);
-const userUpdate = (state, payload) => state.mergeIn([payload.user.sid], fromJS(payload.user));
+const userAdd = (state, payload) => state.setIn([payload.sid], fromJS(payload));
+const userRemove = (state, payload) => state.filterNot(i => i.get('sid') === payload.sid);
 
 const usersReducer = handleActions({
-  [ON_INIT_USERS]: (state, { payload }) => initializeUsers(state, payload),
+  [ON_INIT_ROOMMATES]: (state, { payload }) => initRoommates(state, payload),
   [ON_USER_JOIN]: (state, { payload }) => userAdd(state, payload),
   [ON_USER_LEAVE]: (state, { payload }) => userRemove(state, payload),
-  [ON_PROFILE_CHANGE]: (state, { payload }) => userUpdate(state, payload),
 }, INITIAL_STATE);
 
 export default usersReducer;

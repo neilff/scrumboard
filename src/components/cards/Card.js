@@ -118,7 +118,7 @@ class Card extends Component {
       styles.textHidden :
       styles.textVisible;
 
-    const textStr = text.length > 0 ? text : 'Double Click to Edit';
+    const textStr = text && text.length > 0 ? text : 'Double Click to Edit';
     const visibleText = isVisible ? textStr : 'Poker Mode Enabled';
 
     return connectDragSource(

@@ -1,20 +1,23 @@
-'use strict';
+import {
+  ON_ADD_STICKER,
+} from '../../../shared';
+
+import { DB } from '../index';
 
 const scrub = require('../../utils').scrub;
 const getRoom = require('../serverActions').getRoom;
 const broadcastToRoommates = require('../serverActions').broadcastToRoommates;
-const db = require('../serverActions').db;
 
 function onAddSticker(client, data) {
   const id = scrub(data.id);
   const stickerId = scrub(data.stickerId);
 
   getRoom(client, (room) => {
-    db.addSticker(room, id, stickerId);
+    DB.addSticker(room, id, stickerId);
   });
 
   broadcastToRoommates(client, {
-    action: 'addSticker',
+    action: ON_ADD_STICKER,
     data: {
       id: id,
       stickerId: stickerId

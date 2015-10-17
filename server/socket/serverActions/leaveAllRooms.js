@@ -1,19 +1,20 @@
+import {
+  ON_USER_LEAVE,
+} from '../../../shared';
+
 const rooms = require('../../lib/rooms.js');
 
-function loadSids(idsToUsernames) {
-  return function leaveAllRooms (client) {
-    console.log (client.id + ' just left');
-    const msg = {
-      action: 'leave-announce',
-      data: {
-        sid: client.id
-      }
-    };
+function leaveAllRooms (client) {
+  console.log (client.id + ' just left');
 
-    rooms.remove_from_all_rooms_and_announce(client, msg);
+  const msg = {
+    action: ON_USER_LEAVE,
+    data: {
+      sid: client.id
+    }
+  };
 
-    delete idsToUsernames[client.id];
-  }
+  rooms.remove_from_all_rooms_and_announce(client, msg);
 }
 
-module.exports = loadSids;
+module.exports = leaveAllRooms;

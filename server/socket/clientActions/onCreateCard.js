@@ -1,4 +1,6 @@
-'use strict';
+import {
+  ON_CREATE_CARD,
+} from '../../../shared';
 
 const scrub = require('../../utils').scrub;
 const uuid = require('node-uuid');
@@ -28,7 +30,7 @@ function onCreateCard(client, data) {
     );
 
     broadcastToRoom(room, {
-      action: 'createCard',
+      action: ON_CREATE_CARD,
       data: {
         id,
         ...cardParams,

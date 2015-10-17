@@ -1,12 +1,12 @@
-function loadDb(db) {
-  return function createCard(room, id, params) {
-    const card = {
-      id,
-      ...params,
-    };
+import { DB } from '../index';
 
-    db.createCard(room, id, card);
-  }
+function createCard(room, id, params) {
+  const card = {
+    id,
+    ...params,
+  };
+
+  DB.createCard(room, id, card);
 }
 
-module.exports = loadDb;
+module.exports = createCard;
