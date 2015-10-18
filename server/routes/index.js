@@ -15,7 +15,11 @@ function configureRoutes(app, io) {
   app.get('/auth/google',
     (req, res, next) => {
       console.log('User is going to :: ', req.query.returnLocation);
-      req.session.returnLocation = req.query.returnLocation;
+
+      if (req.query.returnLocation !== '/') {
+        req.session.returnLocation = req.query.returnLocation;
+      }
+
       next();
     },
     passport.authenticate('google', {
@@ -28,7 +32,8 @@ function configureRoutes(app, io) {
     passport.authenticate('google', { failureRedirect: '/login' }),
     function(req, res) {
       console.log('User wishes to return to :: ', req.session.returnLocation);
-      const returnString = req.session.returnLocation ?
+
+      const returnString = req.session && req.session.returnLocation ?
         `/#${ decodeURIComponent(req.session.returnLocation) }` : `/`;
 
       res.redirect(returnString);

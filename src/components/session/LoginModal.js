@@ -13,7 +13,7 @@ class LoginModal extends Component {
       currentPath,
     } = this.props;
 
-    const authLink = currentPath ?
+    const authLink = currentPath && currentPath !== '/' ?
       `/auth/google?returnLocation=${ encodeURIComponent(currentPath) }` : `/auth/google`;
 
     return (

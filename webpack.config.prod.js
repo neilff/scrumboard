@@ -1,6 +1,10 @@
 var path = require('path');
 var webpack = require('webpack');
 
+var definePlugin = new webpack.DefinePlugin({
+  __SOCKET_IO_SERVER__: JSON.stringify(JSON.parse(process.env.SOCKET_IO_SERVER))
+});
+
 module.exports = {
   devtool: 'source-map',
   entry: [
