@@ -1,6 +1,6 @@
-import path from 'path';
-import webpack from 'webpack';
-import invariant from 'invariant';
+var path = require('path');
+var webpack = require('webpack');
+var invariant = require('invariant');
 
 const SOCKET_IO_SERVER = process.env.SOCKET_IO_SERVER || require('./keys').SOCKET_IO_SERVER;
 
@@ -10,10 +10,6 @@ invariant(
    valid Socket.io URL. This can be provided as process.env.SOCKET_IO_SERVER or
    in a keys.js file in the application root folder.`
 );
-
-var definePlugin = new webpack.DefinePlugin({
-  __SOCKET_IO_SERVER__: JSON.stringify(SOCKET_IO_SERVER)
-});
 
 module.exports = {
   devtool: 'eval',
@@ -29,7 +25,9 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    definePlugin
+    new webpack.DefinePlugin({
+      '__SOCKET_IO_SERVER__': JSON.stringify(SOCKET_IO_SERVER)
+    })
   ],
   module: {
     preLoaders: [
