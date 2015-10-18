@@ -7,7 +7,7 @@ import socket from '../socket';
 
 const ROUTER_CHANGE = '@@reduxReactRouter/routerDidChange';
 
-const roomMiddleware = ({dispatch, getState}) => next => action => {
+const roomMiddleware = ({ dispatch, getState }) => next => action => {
   if (action.type !==  ROUTER_CHANGE) {
     return next(action);
   }

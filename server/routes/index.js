@@ -12,17 +12,26 @@ function configureRoutes(app, io) {
       res.render('account', { user: req.user });
     });
 
-  app.get('/auth/google', passport.authenticate('google', {
+  app.get('/auth/google',
+    (req, res, next) => {
+      console.log('User is going to :: ', req.query.returnLocation);
+      req.session.returnLocation = req.query.returnLocation;
+      next();
+    },
+    passport.authenticate('google', {
       scope: [
         'https://www.googleapis.com/auth/plus.login'
       ]
-    }),
-    () => {});
+    }), () => {});
 
   app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
     function(req, res) {
-      res.redirect('/');
+      console.log('User wishes to return to :: ', req.session.returnLocation);
+      const returnString = req.session.returnLocation ?
+        `/#${ decodeURIComponent(req.session.returnLocation) }` : `/`;
+
+      res.redirect(returnString);
     });
 
   app.get('/logout', function(req, res) {

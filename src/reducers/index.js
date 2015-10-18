@@ -3,19 +3,21 @@ import { routerStateReducer  } from 'redux-router';
 
 import cards from './cards';
 import columns from './columns';
-import users from './users';
-import settings from './settings';
+import connection from './connection';
 import session from './session';
+import settings from './settings';
 import ui from './ui';
+import users from './users';
 
 const rootReducer = combineReducers({
-  router: routerStateReducer,
   cards,
   columns,
-  users,
-  settings,
+  connection,
+  router: routerStateReducer,
   session,
+  settings,
   ui,
+  users,
 });
 
 export default rootReducer;

@@ -12,10 +12,10 @@ import configureStore from './store/configureStore';
 import SocketActions from './actions/socket';
 import socket from './socket';
 
-import App from './sections/App';
-import Lobby from './sections/Lobby';
-import Room from './sections/Room';
-import About from './sections/About';
+import App from './containers/App';
+import Lobby from './containers/Lobby';
+import Room from './containers/Room';
+import About from './containers/About';
 
 const rootElement = document.getElementById('root');
 

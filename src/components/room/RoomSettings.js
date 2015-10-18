@@ -150,32 +150,6 @@ class RoomSettings extends Component {
               </div>
             </form>
           </div>
-          <div className="flex-end">
-            <div className="h4">Maintenance</div>
-            <hr className="bg-silver mb2" />
-
-            <div className="flex flex-center mb2">
-              <div className="flex-auto h5">
-                Clear Cards
-              </div>
-              <div className="flex-end">
-                <button className="btn btn-outline black h6">
-                  Go
-                </button>
-              </div>
-            </div>
-
-            <div className="flex flex-center">
-              <div className="flex-auto h5">
-                Kick Users
-              </div>
-              <div className="flex-end">
-                <button className="btn btn-outline black h6">
-                  Go
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     );

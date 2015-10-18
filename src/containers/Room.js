@@ -26,6 +26,7 @@ class Room extends Component {
     usersList: PropTypes.object.isRequired,
     createCard: PropTypes.func.isRequired,
     toggleRoomSettings: PropTypes.func.isRequired,
+    toggleDropdown: PropTypes.func.isRequired,
     changeSettings: PropTypes.func.isRequired,
     roomName: PropTypes.string.isRequired,
     roomSettingsVisible: PropTypes.bool.isRequired,
@@ -42,6 +43,7 @@ class Room extends Component {
       usersList,
       createCard,
       toggleRoomSettings,
+      toggleDropdown,
       changeSettings,
       roomName,
       roomSettingsVisible,
@@ -72,10 +74,11 @@ class Room extends Component {
           </div>
         </Shelf>
         <Board
-          moveCard={ moveCard }
           deleteCard={ deleteCard }
+          moveCard={ moveCard }
           revealEditCard={ revealEditCard }
           saveCard={ saveCard }
+          toggleDropdown={ toggleDropdown }
           cards={ cards } />
       </Page>
     );

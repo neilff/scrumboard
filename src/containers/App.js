@@ -5,18 +5,23 @@ import { Link } from 'react-router';
 
 import { connect } from 'react-redux';
 
+import AppSelector from '../selectors/app';
+
 import LoginModal from '../components/session/LoginModal';
+import ConnectionModal from '../components/session/ConnectionModal';
 import NavigatorBar from '../components/navigator/NavigatorBar';
 import MiniProfile from '../components/profile/MiniProfile';
 import UiActions from '../actions/ui';
 
-@connect(mapStateToProps, UiActions)
+@connect(AppSelector, UiActions)
 class App extends Component {
 
   static propTypes = {
     children: PropTypes.node,
-    manageProfileVisible: PropTypes.bool.isRequired,
+    currentPath: PropTypes.string,
     isLoggedIn: PropTypes.bool.isRequired,
+    hasConnection: PropTypes.bool.isRequired,
+    manageProfileVisible: PropTypes.bool.isRequired,
     toggleProfileModal: PropTypes.func.isRequired,
   }
 
@@ -26,17 +31,22 @@ class App extends Component {
 
   render() {
     const {
-      displayName,
-      profileImage,
-      manageProfileVisible,
-      toggleProfileModal,
-      isLoggedIn,
       children,
+      currentPath,
+      displayName,
+      isLoggedIn,
+      hasConnection,
+      manageProfileVisible,
+      profileImage,
+      toggleProfileModal,
     } = this.props;
 
     return (
       <main>
-        <LoginModal isVisible={ !isLoggedIn }></LoginModal>
+        <LoginModal
+          currentPath={ currentPath }
+          isVisible={ !isLoggedIn } />
+        <ConnectionModal isVisible={ isLoggedIn && !hasConnection } />
         <NavigatorBar>
           <div className="flex flex-center flex-auto">
             <Link
@@ -58,15 +68,6 @@ class App extends Component {
       </main>
     );
   }
-}
-
-function mapStateToProps(state) {
-  return {
-    displayName: state.session.get('displayName', ''),
-    profileImage: state.session.getIn(['photos', '0', 'value'], ''),
-    manageProfileVisible: state.ui.get('manageProfileVisible'),
-    isLoggedIn: state.session.has('id'),
-  };
 }
 
 export default App;

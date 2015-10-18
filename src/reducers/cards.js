@@ -15,6 +15,7 @@ import {
 
 import {
   REVEAL_EDIT_CARD,
+  TOGGLE_CARD_DROPDOWN,
 } from '../constants';
 
 const initializeCards = (state, payload) => {
@@ -53,6 +54,8 @@ const addSticker = (state, payload) => {
   });
 };
 
+const toggleDropdown = (state, id, bool) => state.setIn([id, 'showDropdown'], bool);
+
 const INITIAL_STATE = fromJS({});
 
 const cardsReducer = handleActions({
@@ -65,6 +68,7 @@ const cardsReducer = handleActions({
   [DELETE_CARD]: (state, { payload }) => deleteCard(state, payload),
   [EDIT_CARD]: (state, { payload }) => saveCard(state, payload),
   [REVEAL_EDIT_CARD]: (state, { payload }) => revealEdit(state, payload.id),
+  [TOGGLE_CARD_DROPDOWN]: (state, { payload }) => toggleDropdown(state, payload.id, payload.val),
   [ON_ADD_STICKER]: (state, { payload }) => addSticker(state, payload),
 }, INITIAL_STATE);
 

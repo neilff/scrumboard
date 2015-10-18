@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { BOARD_TARGET } from '../../constants';
 import { DragSource } from 'react-dnd';
 
+import Dropdown from '../ui/Dropdown';
+
 const boxSource = {
   beginDrag(props) {
     const { id, left, top } = props;
@@ -29,8 +31,10 @@ class Card extends Component {
     hideSourceOnDrag: PropTypes.bool.isRequired,
     isEditing: PropTypes.bool.isRequired,
     isVisible: PropTypes.bool.isRequired,
+    isDropdownOpen: PropTypes.bool.isRequired,
     deleteCard: PropTypes.func.isRequired,
     revealEditCard: PropTypes.func.isRequired,
+    toggleDropdown: PropTypes.func.isRequired,
     saveCard: PropTypes.func.isRequired,
   };
 
@@ -39,7 +43,7 @@ class Card extends Component {
 
     this.state = {
       value: '',
-      isDeleteVisible: false,
+      isHovered: false,
     };
   }
 
@@ -75,14 +79,20 @@ class Card extends Component {
 
   onMouseEnter() {
     this.setState({
-      isDeleteVisible: true,
+      isHovered: true,
     });
   }
 
   onMouseLeave() {
     this.setState({
-      isDeleteVisible: false,
+      isHovered: false,
     });
+  }
+
+  onToggleDropdown(e) {
+    e.stopPropagation();
+
+    this.props.toggleDropdown(this.props.id);
   }
 
   render() {
@@ -94,21 +104,22 @@ class Card extends Component {
       isDragging,
       isEditing,
       isVisible,
+      isDropdownOpen,
       text,
     } = this.props;
 
     const {
       value,
-      isDeleteVisible,
+      isHovered,
     } = this.state;
 
     if (isDragging && hideSourceOnDrag) {
       return null;
     }
 
-    const deleteBtnStyle = isDeleteVisible && !isEditing ?
-      styles.deleteBtnVisible :
-      styles.deleteBtnHidden;
+    const cardBtnStyle = isHovered && !isEditing ?
+      styles.itemVisible :
+      styles.itemMuted;
 
     const inputStyle = isEditing ?
       styles.inputVisible :
@@ -125,15 +136,28 @@ class Card extends Component {
       <div
         onMouseEnter={ this.onMouseEnter.bind(this) }
         onMouseLeave={ this.onMouseLeave.bind(this) }
-        onDoubleClick={ this.onDoubleClick.bind(this) }
         className="absolute flex center flex-center p1 border bg-white"
         style={{ ...styles.baseCard, left, top }}>
-        <button
-          onClick={ this.onDelete.bind(this) }
-          className="absolute btn border-left border-bottom not-rounded h6 p0 top-0 right-0 gray icon ion-close-round"
-          style={{ ...deleteBtnStyle, ...styles.deleteBtn }}>
-        </button>
+        <div className="absolute top-0 right-0">
+          <button
+            onClick={ this.onToggleDropdown.bind(this) }
+            className="absolute btn h6 p0 top-0 right-0 gray icon ion-ios-arrow-down"
+            style={{ ...cardBtnStyle, ...styles.cardBtn }}>
+          </button>
+          <Dropdown isVisible={ isDropdownOpen }>
+            <h6>Card Actions</h6>
+            <ul className="list-reset">
+              <li>
+                <a href onClick={ this.onDelete.bind(this) }>Remove Card</a>
+              </li>
+              <li>
+                <a href>Pin Card</a>
+              </li>
+            </ul>
+          </Dropdown>
+        </div>
         <div
+          onDoubleClick={ this.onDoubleClick.bind(this) }
           className="flex-auto center"
           style={{ ...textStyle }}>
           { visibleText }
@@ -160,15 +184,15 @@ const styles = {
     fontSize: '12px',
     boxShadow: '0 1px 8px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.12)',
   },
-  deleteBtn: {
+  cardBtn: {
     height: '24px',
     transition: 'opacity 125ms',
     width: '24px',
   },
-  deleteBtnHidden: {
-    opacity: '0',
+  itemMuted: {
+    opacity: '0.5',
   },
-  deleteBtnVisible: {
+  itemVisible: {
     opacity: '1',
   },
   inputVisible: {

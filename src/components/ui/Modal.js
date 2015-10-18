@@ -6,7 +6,7 @@ export default class Modal {
   static propTypes = {
     isVisible: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
-    onClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
     size: PropTypes.string.isRequired,
   }
 
