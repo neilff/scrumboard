@@ -16,7 +16,7 @@
     "url": ""
   },
   "homepage": "",
-  "devDependencies": {
+  "dependencies": {
     "babel-core": "^5.4.7",
     "babel-eslint": "^3.1.9",
     "babel-loader": "^5.1.2",
@@ -33,9 +33,7 @@
     "sass-loader": "^2.0.1",
     "webpack": "^1.9.6",
     "webpack-dev-middleware": "^1.2.0",
-    "webpack-hot-middleware": "^2.0.0"
-  },
-  "dependencies": {
+    "webpack-hot-middleware": "^2.0.0",
     "async": "^1.4.2",
     "basscss": "^7.0.4",
     "body-parser": "1.12.2",
