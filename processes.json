@@ -1,0 +1,17 @@
+{
+  "apps": [
+    {
+      "name": "scrumboard-app",
+      "script": "wrapper.js",
+      "args": [],
+      "watch": true,
+      "node_args": "--harmony",
+      "merge_logs": true,
+      "cwd": "server",
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "next_gen_js": true
+    }
+  ]
+}
