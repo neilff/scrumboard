@@ -3,6 +3,7 @@ import { BOARD_TARGET } from '../../constants';
 import { DragSource } from 'react-dnd';
 
 import Dropdown from '../ui/Dropdown';
+import Vote from '../ui/Vote';
 
 const boxSource = {
   beginDrag(props) {
@@ -151,7 +152,7 @@ class Card extends Component {
                 <a href onClick={ this.onDelete.bind(this) }>Remove Card</a>
               </li>
               <li>
-                <a href>Pin Card</a>
+                <a href>Hello Card</a>
               </li>
             </ul>
           </Dropdown>
@@ -170,6 +171,9 @@ class Card extends Component {
           onChange={ this.onChange.bind(this) }
           onBlur={ this.onBlur.bind(this) }>
         </textarea>
+        <Vote
+          style={ styles.voter }
+          className="absolute top-0 right-0 bottom-0" />
       </div>
     );
   }
@@ -205,6 +209,8 @@ const styles = {
     opacity: '0',
     width: '0',
     height: '0',
+    padding: '0',
+    margin: '0',
     overflow: 'hidden',
   },
   textVisible: {
@@ -212,6 +218,11 @@ const styles = {
   },
   textHidden: {
     display: 'none',
+  },
+  voter: {
+    top: '0',
+    bottom: '0',
+    right: '0.5rem',
   },
 };
 

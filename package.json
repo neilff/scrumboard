@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Scrumboard",
   "scripts": {
-    "clean": "rimraf static",
+    "clean": "rimraf static/ dist/",
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
     "build": "npm run clean && npm run build:webpack",
     "start": "npm run build && pm2 start processes.json",
-    "dev": "BUILD_DEV=true nodemon --exec babel-node server/index.js",
+    "dev": "npm run clean; nodemon --exec babel-node server/index.js",
     "lint": "eslint src"
   },
   "author": "Neil Fenton <neilff@gmail.com> (http://github.com/neilff)",
