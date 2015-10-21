@@ -1,6 +1,6 @@
 # Scrumboard
 
-Scrumblr rebuilt using [Redux](https://github.com/rackt/redux) and [React.js](https://facebook.github.io/react/)
+[Scrumblr](https://github.com/aliasaria/scrumblr) rebuilt using [Redux](https://github.com/rackt/redux) and [React.js](https://facebook.github.io/react/)
 
 ## Getting Started
 
