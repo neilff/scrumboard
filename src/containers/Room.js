@@ -38,11 +38,12 @@ class Room extends Component {
     saveCard: PropTypes.func.isRequired,
     voteCardUp: PropTypes.func.isRequired,
     voteCardDown: PropTypes.func.isRequired,
-    closeDropdowns: PropTypes.func.isRequired,
+    closeMenus: PropTypes.func.isRequired,
+    clearRoom: PropTypes.func.isRequired,
   }
 
   onCloseDropdowns() {
-    this.props.closeDropdowns();
+    this.props.closeMenus();
   }
 
   render() {
@@ -62,7 +63,10 @@ class Room extends Component {
       saveCard,
       voteCardUp,
       voteCardDown,
-      closeDropdowns,
+      closeMenus,
+      clearRoom,
+      usersListVisible,
+      toggleCurrentUsers,
     } = this.props;
 
     return (
@@ -75,13 +79,17 @@ class Room extends Component {
               name={ roomName }
               toggleRoomSettings={ toggleRoomSettings }
               settings={ settings }
-              changeSettings={ changeSettings } />
+              changeSettings={ changeSettings }
+              clearRoom={ clearRoom } />
           </div>
           <div className="flex-auto">
             <CreateCard createCard={ createCard } />
           </div>
           <div className="flex flex-end flex-center right-align">
-            <UserList usersList={ usersList } />
+            <UserList
+              isVisible={ usersListVisible }
+              toggleCurrentUsers={ toggleCurrentUsers }
+              usersList={ usersList } />
           </div>
         </Shelf>
         <Board

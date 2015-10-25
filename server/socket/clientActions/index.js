@@ -1,14 +1,15 @@
-const onCreateCard = require('./onCreateCard');
-const onJoinRoom = require('./onJoinRoom');
-const onMoveCard = require('./onMoveCard');
-const onEditCard = require('./onEditCard');
-const onDeleteCard = require('./onDeleteCard');
-const onCreateColumn = require('./onCreateColumn');
-const onDeleteColumn = require('./onDeleteColumn');
-const onUpdateColumns = require('./onUpdateColumns');
-const onChangeSettings = require('./onChangeSettings');
-const onSetBoardSize = require('./onSetBoardSize');
-const onUpdateVotes = require('./onUpdateVotes');
+import onCreateCard from './onCreateCard';
+import onJoinRoom from './onJoinRoom';
+import onMoveCard from './onMoveCard';
+import onEditCard from './onEditCard';
+import onDeleteCard from './onDeleteCard';
+import onCreateColumn from './onCreateColumn';
+import onDeleteColumn from './onDeleteColumn';
+import onUpdateColumns from './onUpdateColumns';
+import onChangeSettings from './onChangeSettings';
+import onSetBoardSize from './onSetBoardSize';
+import onUpdateVotes from './onUpdateVotes';
+import onClearRoom from './onClearRoom';
 
 module.exports = {
   onCreateCard,
@@ -22,4 +23,5 @@ module.exports = {
   onChangeSettings,
   onSetBoardSize,
   onUpdateVotes,
+  onClearRoom,
 };

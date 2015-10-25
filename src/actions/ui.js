@@ -3,6 +3,8 @@ import {
   HIDE_MANAGE_PROFILE,
   SHOW_ROOM_SETTINGS,
   HIDE_ROOM_SETTINGS,
+  SHOW_ROOM_USERS,
+  HIDE_ROOM_USERS,
 } from '../constants';
 
 export function toggleProfileModal() {
@@ -25,7 +27,18 @@ export function toggleRoomSettings() {
   };
 }
 
+export function toggleCurrentUsers() {
+  return (dispatch, getState) => {
+    return dispatch({
+      type: getState().ui.get('currentUsersVisible') ?
+        HIDE_ROOM_USERS :
+        SHOW_ROOM_USERS,
+    });
+  };
+}
+
 export default {
   toggleProfileModal,
   toggleRoomSettings,
+  toggleCurrentUsers,
 };

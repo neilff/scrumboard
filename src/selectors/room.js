@@ -26,6 +26,7 @@ const roomSelector = createSelector(
       usersList: users.toList().push(currentUser),
       roomName: router.params.roomId,
       roomSettingsVisible: ui.get('manageRoomSettingsVisible'),
+      usersListVisible: ui.get('currentUsersVisible'),
       settings,
       cards: cards.reduce((acc, i) => {
         // If pokerMode is enabled, only allow owners to see their cards

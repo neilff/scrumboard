@@ -7,32 +7,16 @@ import User from './User';
 class UserList extends Component {
   static propTypes = {
     usersList: PropTypes.object.isRequired,
-  }
-
-  constructor() {
-    super();
-
-    this.state = {
-      listVisible: false,
-    };
-  }
-
-  onClickCounter() {
-    const isVisible = this.state.listVisible;
-
-    this.setState({
-      listVisible: !isVisible,
-    });
+    isVisible: PropTypes.bool.isRequired,
+    toggleCurrentUsers: PropTypes.func.isRequired,
   }
 
   render() {
     const {
       usersList,
+      isVisible,
+      toggleCurrentUsers,
     } = this.props;
-
-    const {
-      listVisible,
-    } = this.state;
 
     const elemList = usersList.map(i => {
       return (
@@ -43,14 +27,16 @@ class UserList extends Component {
       );
     });
 
-    const popupClasses = listVisible ?
+    const popupClasses = isVisible ?
       { ...styles.popupContainer, ...styles.isVisible } :
       { ...styles.popupContainer };
 
     return (
-      <div className="flex-auto">
+      <div
+        onClick={ (e) => e.stopPropagation() }
+        className="flex-auto">
         <span
-          onClick={ this.onClickCounter.bind(this) }
+          onClick={ toggleCurrentUsers }
           style={ styles.counter }
           className="inline-block center bg-white black">
           { usersList.size }
