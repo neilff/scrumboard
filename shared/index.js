@@ -39,6 +39,8 @@ export const ON_SET_CONFIG = '@@rangleScrumblr/ON_SET_CONFIG';
 // Rooms
 export const JOIN_ROOM = '@@rangleScrumblr/JOIN_ROOM';
 export const LEAVE_ROOM = '@@rangleScrumblr/LEAVE_ROOM';
+export const CLEAR_ROOM = '@@rangleScrumblr/CLEAR_ROOM';
+export const ON_CLEAR_ROOM = '@@rangleScrumblr/ON_CLEAR_ROOM';
 
 // Cards
 export const MOVE_CARD = '@@rangleScrumblr/MOVE_CARD';

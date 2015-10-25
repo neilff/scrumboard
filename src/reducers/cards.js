@@ -11,12 +11,13 @@ import {
   MOVE_CARD,
   DELETE_CARD,
   EDIT_CARD,
+  ON_CLEAR_ROOM,
 } from '../../shared';
 
 import {
   REVEAL_EDIT_CARD,
   TOGGLE_CARD_DROPDOWN,
-  CLOSE_CARD_DROPDOWNS,
+  HIDE_MENUS,
 } from '../constants';
 
 const initializeCards = (state, payload) => {
@@ -56,7 +57,8 @@ const revealEdit = (state, id) => state.setIn([id, 'isEditing'], true);
 const deleteCard = (state, payload) => state.delete(payload.id);
 
 const toggleDropdown = (state, id, bool) => state.setIn([id, 'showDropdown'], bool);
-const closeDropdowns = (state) => state.map(i => i.set('showDropdown', false));
+const closeMenus = (state) => state.map(i => i.set('showDropdown', false));
+const clearCards = (state) => state.clear();
 
 const INITIAL_STATE = fromJS({});
 
@@ -72,7 +74,8 @@ const cardsReducer = handleActions({
   [EDIT_CARD]: (state, { payload }) => saveCard(state, payload),
   [REVEAL_EDIT_CARD]: (state, { payload }) => revealEdit(state, payload.id),
   [TOGGLE_CARD_DROPDOWN]: (state, { payload }) => toggleDropdown(state, payload.id, payload.val),
-  [CLOSE_CARD_DROPDOWNS]: (state) => closeDropdowns(state),
+  [HIDE_MENUS]: (state) => closeMenus(state),
+  [ON_CLEAR_ROOM]: (state) => clearCards(state),
 }, INITIAL_STATE);
 
 export default cardsReducer;

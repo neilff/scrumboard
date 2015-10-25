@@ -12,6 +12,7 @@ import {
   UPDATE_COLUMNS,
   VOTE_UP,
   VOTE_DOWN,
+  CLEAR_ROOM,
 } from '../../shared';
 
 import sys from 'sys';
@@ -58,6 +59,7 @@ function configureSocket(io) {
         [VOTE_UP]: () => clientActions.onUpdateVotes(socket, data, 'inc'),
         [VOTE_DOWN]: () => clientActions.onUpdateVotes(socket, data, 'dec'),
         [SET_BOARD_SIZE]: () => clientActions.onSetBoardSize(socket, data),
+        [CLEAR_ROOM]: () => clientActions.onClearRoom(socket, data),
       };
 
       return actionMap[action] ?

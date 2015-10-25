@@ -11,7 +11,7 @@ import {
   SEND_SOCKET,
   REVEAL_EDIT_CARD,
   TOGGLE_CARD_DROPDOWN,
-  CLOSE_CARD_DROPDOWNS,
+  HIDE_MENUS,
 } from '../constants';
 
 export function moveCard({id, left = 0, top = 0}) {
@@ -96,9 +96,9 @@ export function toggleDropdown(id) {
   };
 }
 
-export function closeDropdowns() {
+export function closeMenus() {
   return {
-    type: CLOSE_CARD_DROPDOWNS,
+    type: HIDE_MENUS,
   };
 }
 
@@ -121,7 +121,7 @@ export default {
   revealEditCard,
   saveCard,
   toggleDropdown,
-  closeDropdowns,
+  closeMenus,
   voteCardUp,
   voteCardDown,
 };
