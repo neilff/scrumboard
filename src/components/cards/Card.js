@@ -2,11 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import { BOARD_TARGET } from '../../constants';
 import { DragSource } from 'react-dnd';
 
-import Dropdown from '../ui/Dropdown';
+import Vote from '../ui/Vote';
+import CardMenu from './CardMenu';
+import CardText from './CardText';
 
 const boxSource = {
   beginDrag(props) {
-    const { id, left, top } = props;
+    const id = props.card.get('id');
+    const left = props.card.get('x');
+    const top = props.card.get('y');
 
     return {
       id,
@@ -22,59 +26,24 @@ const boxSource = {
 }))
 class Card extends Component {
   static propTypes = {
+    card: PropTypes.object.isRequired,
     connectDragSource: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
-    id: PropTypes.any.isRequired,
-    left: PropTypes.number.isRequired,
-    top: PropTypes.number.isRequired,
-    text: PropTypes.string.isRequired,
     hideSourceOnDrag: PropTypes.bool.isRequired,
-    isEditing: PropTypes.bool.isRequired,
-    isVisible: PropTypes.bool.isRequired,
-    isDropdownOpen: PropTypes.bool.isRequired,
-    deleteCard: PropTypes.func.isRequired,
     revealEditCard: PropTypes.func.isRequired,
-    toggleDropdown: PropTypes.func.isRequired,
+    deleteCard: PropTypes.func.isRequired,
     saveCard: PropTypes.func.isRequired,
+    toggleDropdown: PropTypes.func.isRequired,
+    voteCardUp: PropTypes.func.isRequired,
+    voteCardDown: PropTypes.func.isRequired,
   };
 
   constructor() {
     super();
 
     this.state = {
-      value: '',
       isHovered: false,
     };
-  }
-
-  onBlur(e) {
-    this.props.saveCard(this.props.id, e.target.value);
-  }
-
-  onDelete(e) {
-    e.preventDefault();
-
-    this.props.deleteCard(this.props.id);
-  }
-
-  onChange(e) {
-    this.setState({
-      value: e.target.value,
-    });
-  }
-
-  onDoubleClick() {
-    if (!this.props.isVisible) {
-      return;
-    }
-
-    this.props.revealEditCard(this.props.id);
-
-    this.setState({
-      value: this.props.text,
-    });
-
-    React.findDOMNode(this.refs.myTextInput).focus();
   }
 
   onMouseEnter() {
@@ -89,27 +58,27 @@ class Card extends Component {
     });
   }
 
-  onToggleDropdown(e) {
-    e.stopPropagation();
-
-    this.props.toggleDropdown(this.props.id);
-  }
-
   render() {
     const {
-      hideSourceOnDrag,
-      left,
-      top,
+      card,
       connectDragSource,
       isDragging,
-      isEditing,
-      isVisible,
-      isDropdownOpen,
-      text,
+      hideSourceOnDrag,
+      revealEditCard,
+      deleteCard,
+      saveCard,
+      toggleDropdown,
+      voteCardUp,
+      voteCardDown,
     } = this.props;
 
+    const isEditing = card.get('isEditing', false);
+    const isVisible = card.get('isVisible', false);
+    const text = card.get('text');
+    const left = card.get('x');
+    const top = card.get('y');
+
     const {
-      value,
       isHovered,
     } = this.state;
 
@@ -117,59 +86,45 @@ class Card extends Component {
       return null;
     }
 
-    const cardBtnStyle = isHovered && !isEditing ?
+    const cardHoverStyle = isHovered ?
+      styles.cardHovered :
+      styles.cardDefault;
+
+    const voterStyle = isHovered && !isEditing ?
       styles.itemVisible :
       styles.itemMuted;
-
-    const inputStyle = isEditing ?
-      styles.inputVisible :
-      styles.inputHidden;
-
-    const textStyle = isEditing ?
-      styles.textHidden :
-      styles.textVisible;
-
-    const textStr = text && text.length > 0 ? text : 'Double Click to Edit';
-    const visibleText = isVisible ? textStr : 'Poker Mode Enabled';
 
     return connectDragSource(
       <div
         onMouseEnter={ this.onMouseEnter.bind(this) }
         onMouseLeave={ this.onMouseLeave.bind(this) }
-        className="absolute flex center flex-center p1 border bg-white"
-        style={{ ...styles.baseCard, left, top }}>
-        <div className="absolute top-0 right-0">
-          <button
-            onClick={ this.onToggleDropdown.bind(this) }
-            className="absolute btn h6 p0 top-0 right-0 gray icon ion-ios-arrow-down"
-            style={{ ...cardBtnStyle, ...styles.cardBtn }}>
-          </button>
-          <Dropdown isVisible={ isDropdownOpen }>
-            <h6>Card Actions</h6>
-            <ul className="list-reset">
-              <li>
-                <a href onClick={ this.onDelete.bind(this) }>Remove Card</a>
-              </li>
-              <li>
-                <a href>Pin Card</a>
-              </li>
-            </ul>
-          </Dropdown>
-        </div>
-        <div
-          onDoubleClick={ this.onDoubleClick.bind(this) }
-          className="flex-auto center"
-          style={{ ...textStyle }}>
-          { visibleText }
-        </div>
-        <textarea
-          style={{ ...inputStyle }}
-          type="text"
-          ref="myTextInput"
-          value={ value }
-          onChange={ this.onChange.bind(this) }
-          onBlur={ this.onBlur.bind(this) }>
-        </textarea>
+        className="absolute flex center flex-center p0 bg-white"
+        style={{
+          ...cardHoverStyle,
+          ...styles.baseCard,
+          left,
+          top,
+        }}>
+        <Vote
+          cardId={ card.get('id') }
+          count={ card.get('votes') }
+          voteUp={ voteCardUp }
+          voteDown={ voteCardDown }
+          style={{ ...voterStyle, ...styles.voter }} />
+        <CardMenu
+          card={ card }
+          deleteCard={ deleteCard }
+          toggleDropdown={ toggleDropdown }
+          isDropdownOpen={ card.get('showDropdown', false) }
+          isEditing={ isEditing }
+          isHovered={ isHovered } />
+        <CardText
+          id={ card.get('id') }
+          text={ card.get('text') }
+          isEditing={ isEditing }
+          isVisible={ isVisible }
+          revealEditCard={ revealEditCard }
+          saveCard={ saveCard } />
       </div>
     );
   }
@@ -179,15 +134,16 @@ const styles = {
   baseCard: {
     cursor: 'move',
     transition: 'all 300ms',
-    width: '140px',
-    height: '70px',
-    fontSize: '12px',
-    boxShadow: '0 1px 8px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.12)',
+    width: '190px',
+    height: '120px',
+    fontSize: '16px',
   },
-  cardBtn: {
-    height: '24px',
-    transition: 'opacity 125ms',
-    width: '24px',
+  cardHovered: {
+    boxShadow: '0 1px 8px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.12)',
+    border: '1px solid rgba(0, 0, 0, 0.25)'
+  },
+  cardDefault: {
+    border: '1px solid rgba(0, 0, 0, 0.15)'
   },
   itemMuted: {
     opacity: '0.5',
@@ -195,23 +151,10 @@ const styles = {
   itemVisible: {
     opacity: '1',
   },
-  inputVisible: {
-    opacity: '100',
-    width: 'auto',
-    overflow: 'initial',
-    fontSize: '12px',
-  },
-  inputHidden: {
-    opacity: '0',
-    width: '0',
-    height: '0',
-    overflow: 'hidden',
-  },
-  textVisible: {
-    display: 'block',
-  },
-  textHidden: {
-    display: 'none',
+  voter: {
+    transition: 'opacity 125ms',
+    width: '25px',
+    justifyContent: 'center',
   },
 };
 

@@ -117,12 +117,51 @@ db.prototype = {
 		});
 	},
 
+	getCard: function(room, id, callback) {
+		redisClient.hget(REDIS_PREFIX + '-room:' + room + '-cards', id, function(err, res) {
+			var card = JSON.parse(res);
+			callback(card);
+		});
+	},
+
 	cardEdit: function(room, id, text) {
 		redisClient.hget(REDIS_PREFIX + '-room:' + room + '-cards', id, function(err, res) {
 			var card = JSON.parse(res);
 			if (card !== null) {
 				card.text = text;
 				redisClient.hset(REDIS_PREFIX + '-room:' + room + '-cards', id, JSON.stringify(card));
+			}
+		});
+	},
+
+	cardUpdateVotes: function(room, cardId, clientId, direction, callback) {
+		redisClient.hget(REDIS_PREFIX + '-room:' + room + '-cards', cardId, function(err, res) {
+			let card = JSON.parse(res);
+
+			if (card !== null) {
+				if (!card.votes[clientId]) {
+					card.votes[clientId] = 0;
+				}
+
+	      if (direction === 'inc') {
+	      	card.votes[clientId] += 1;
+	      }
+
+	      if (direction === 'dec') {
+	      	if (card.votes[clientId] > 1) {
+	      		card.votes[clientId] -= 1;
+	      	} else {
+	      		delete card.votes[clientId];
+	      	}
+	      }
+
+	      console.log('voted card :: ', card);
+
+	      card = JSON.stringify(card);
+
+				redisClient.hset(REDIS_PREFIX + '-room:' + room + '-cards', cardId, card, function() {
+					callback(card);
+				});
 			}
 		});
 	},

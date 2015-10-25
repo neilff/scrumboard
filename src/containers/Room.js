@@ -36,6 +36,13 @@ class Room extends Component {
     deleteCard: PropTypes.func.isRequired,
     revealEditCard: PropTypes.func.isRequired,
     saveCard: PropTypes.func.isRequired,
+    voteCardUp: PropTypes.func.isRequired,
+    voteCardDown: PropTypes.func.isRequired,
+    closeDropdowns: PropTypes.func.isRequired,
+  }
+
+  onCloseDropdowns() {
+    this.props.closeDropdowns();
   }
 
   render() {
@@ -53,10 +60,14 @@ class Room extends Component {
       deleteCard,
       revealEditCard,
       saveCard,
+      voteCardUp,
+      voteCardDown,
+      closeDropdowns,
     } = this.props;
 
     return (
-      <Page>
+      <Page
+        onClick={ this.onCloseDropdowns.bind(this) }>
         <Shelf>
           <div>
             <RoomSettings
@@ -79,6 +90,8 @@ class Room extends Component {
           revealEditCard={ revealEditCard }
           saveCard={ saveCard }
           toggleDropdown={ toggleDropdown }
+          voteCardUp={ voteCardUp }
+          voteCardDown={ voteCardDown }
           cards={ cards } />
       </Page>
     );

@@ -10,7 +10,7 @@ export const ON_INIT_CARDS = '@@rangleScrumblr/ON_INIT_CARDS';
 export const ON_CREATE_CARD = '@@rangleScrumblr/ON_CREATE_CARD';
 export const ON_EDIT_CARD = '@@rangleScrumblr/ON_EDIT_CARD';
 export const ON_DELETE_CARD = '@@rangleScrumblr/ON_DELETE_CARD';
-export const ON_ADD_STICKER = '@@rangleScrumblr/ON_ADD_STICKER';
+export const ON_UPDATE_VOTES = '@@rangleScrumblr/ON_UPDATE_VOTES';
 
 // Columns
 export const ON_INIT_COLUMNS = '@@rangleScrumblr/ON_INIT_COLUMNS';
@@ -45,7 +45,8 @@ export const MOVE_CARD = '@@rangleScrumblr/MOVE_CARD';
 export const CREATE_CARD = '@@rangleScrumblr/CREATE_CARD';
 export const DELETE_CARD = '@@rangleScrumblr/DELETE_CARD';
 export const EDIT_CARD = '@@rangleScrumblr/EDIT_CARD';
-export const ADD_STICKER = '@@rangleScrumblr/ADD_STICKER';
+export const VOTE_UP = '@@rangleScrumblr/VOTE_UP';
+export const VOTE_DOWN = '@@rangleScrumblr/VOTE_DOWN';
 
 // Columns
 export const CREATE_COLUMN = '@@rangleScrumblr/CREATE_COLUMN';

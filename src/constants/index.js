@@ -10,3 +10,4 @@ export const SHOW_ROOM_SETTINGS = '@@rangleScrumblr/SHOW_ROOM_SETTINGS';
 export const HIDE_ROOM_SETTINGS = '@@rangleScrumblr/HIDE_ROOM_SETTINGS';
 export const REVEAL_EDIT_CARD = '@@rangleScrumblr/REVEAL_EDIT_CARD';
 export const TOGGLE_CARD_DROPDOWN = '@@rangleScrumblr/TOGGLE_CARD_DROPDOWN';
+export const CLOSE_CARD_DROPDOWNS = '@@rangleScrumblr/CLOSE_CARD_DROPDOWNS';

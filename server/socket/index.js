@@ -10,7 +10,8 @@ import {
   CREATE_COLUMN,
   DELETE_COLUMN,
   UPDATE_COLUMNS,
-  ADD_STICKER,
+  VOTE_UP,
+  VOTE_DOWN,
 } from '../../shared';
 
 import sys from 'sys';
@@ -54,7 +55,8 @@ function configureSocket(io) {
         [DELETE_COLUMN]: () => clientActions.onDeleteColumn(socket, data),
         [UPDATE_COLUMNS]: () => clientActions.onUpdateColumns(socket, data),
         [SET_CONFIG]: () => clientActions.onChangeSettings(socket, data),
-        [ADD_STICKER]: () => clientActions.onAddSticker(socket, data),
+        [VOTE_UP]: () => clientActions.onUpdateVotes(socket, data, 'inc'),
+        [VOTE_DOWN]: () => clientActions.onUpdateVotes(socket, data, 'dec'),
         [SET_BOARD_SIZE]: () => clientActions.onSetBoardSize(socket, data),
       };
 

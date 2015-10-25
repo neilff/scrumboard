@@ -1,7 +1,10 @@
 import {
   SEND_SOCKET,
-  SET_CONFIG,
 } from '../constants';
+
+import {
+  SET_CONFIG,
+} from '../../shared';
 
 
 export function changeSettings(data) {

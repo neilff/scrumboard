@@ -1,5 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import R from 'ramda';
+import { partial } from 'ramda';
+import { fromJS } from 'immutable';
+import DEFAULT_SETTINGS from '../../../shared/settings';
+
+import RoomOption from './RoomOption';
+
+const roomSettings = fromJS(DEFAULT_SETTINGS.roomSettings);
 
 class RoomSettings extends Component {
   static propTypes = {
@@ -10,13 +16,9 @@ class RoomSettings extends Component {
     settings: PropTypes.object.isRequired,
   }
 
-  constructor(props) {
-    super();
-
-    this.state = {
-      pokerMode: props.settings.get('pokerMode'),
-      theme: props.settings.get('theme'),
-    };
+  state = {
+    pokerMode: this.props.settings.get('pokerMode'),
+    theme: this.props.settings.get('theme'),
   }
 
   componentWillReceiveProps(nextProps) {
@@ -26,25 +28,10 @@ class RoomSettings extends Component {
     });
   }
 
-  onChangeInput(key, e) {
+  onChange(key, value) {
     this.setState({
-      [key]: e.target.value,
+      [key]: value,
     });
-  }
-
-  onChangeCheckbox(key, e) {
-    this.setState({
-      [key]: e.target.checked,
-    });
-  }
-
-  onSubmit(e) {
-    e.preventDefault();
-    const data = this.state;
-    const { changeSettings, toggleRoomSettings } = this.props;
-
-    changeSettings(data);
-    toggleRoomSettings();
   }
 
   onReset(e) {
@@ -60,6 +47,15 @@ class RoomSettings extends Component {
     toggleRoomSettings();
   }
 
+  onSubmit(e) {
+    e.preventDefault();
+    const data = this.state;
+    const { changeSettings, toggleRoomSettings } = this.props;
+
+    changeSettings(data);
+    toggleRoomSettings();
+  }
+
   render() {
     const {
       name,
@@ -67,14 +63,10 @@ class RoomSettings extends Component {
       toggleRoomSettings,
     } = this.props;
 
-    const {
-      pokerMode,
-      theme,
-    } = this.state;
+    const state = this.state;
 
     const {
-      onChangeInput,
-      onChangeCheckbox,
+      onChange,
       onSubmit,
     } = this;
 
@@ -83,7 +75,9 @@ class RoomSettings extends Component {
       { ...styles.popupContainer };
 
     return (
-      <div className="flex flex-auto mr2 h3">
+      <div
+        onClick={ (e) => e.stopPropagation() }
+        className="flex flex-auto mr2 h3">
         <div className="flex flex-center">
           <button
             onClick={ toggleRoomSettings }
@@ -103,33 +97,20 @@ class RoomSettings extends Component {
             <hr className="bg-silver mb2" />
 
             <form onSubmit={ onSubmit.bind(this) }>
-              <div className="flex flex-center mb2">
-                <div className="flex-auto h5">
-                  Enable Poker Mode
-                </div>
-                <div className="flex-end">
-                  <input
-                    checked={ pokerMode }
-                    onChange={ R.partial(onChangeCheckbox, 'pokerMode').bind(this) }
-                    type="checkbox" />
-                </div>
-              </div>
-
-              <div className="flex flex-center mb2">
-                <div className="flex-auto h5">
-                  Set Theme
-                </div>
-                <div className="flex-auto">
-                  <select
-                    value={ theme }
-                    onChange={ R.partial(onChangeInput, 'theme').bind(this) }
-                    className="block col-12 field">
-                    <option value="default">Default</option>
-                    <option value="columns">Columns</option>
-                    <option value="boat">Boat</option>
-                  </select>
-                </div>
-              </div>
+              {
+                roomSettings.map(i => {
+                  return (
+                    <RoomOption
+                      key={ i.get('id') }
+                      id={ i.get('id') }
+                      type={ i.get('type') }
+                      text={ i.get('text') }
+                      value={ state[i.get('id')] }
+                      options={ i.get('options') }
+                      onChange={ partial(onChange, [i.get('id')]).bind(this) } />
+                  );
+                })
+              }
 
               <div className="flex flex-center mb2">
                 <div className="flex-auto h5">

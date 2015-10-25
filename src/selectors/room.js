@@ -31,7 +31,10 @@ const roomSelector = createSelector(
         // If pokerMode is enabled, only allow owners to see their cards
         const isVisible = (pokerMode && sid === i.get('owner')) || !pokerMode;
 
-        return acc.push(i.set('isVisible', isVisible));
+        return acc.push(i.merge({
+          'isVisible': isVisible,
+          'votes': i.get('votes').reduce((acc, i) => acc + i, 0)
+        }));
       }, List()),
     };
   },

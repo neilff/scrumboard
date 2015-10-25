@@ -3,12 +3,15 @@ import {
   CREATE_CARD,
   DELETE_CARD,
   EDIT_CARD,
+  VOTE_UP,
+  VOTE_DOWN,
 } from '../../shared';
 
 import {
   SEND_SOCKET,
   REVEAL_EDIT_CARD,
   TOGGLE_CARD_DROPDOWN,
+  CLOSE_CARD_DROPDOWNS,
 } from '../constants';
 
 export function moveCard({id, left = 0, top = 0}) {
@@ -57,6 +60,28 @@ export function revealEditCard(id) {
   };
 }
 
+export function voteCardUp(id) {
+  return {
+    [SEND_SOCKET]: {
+      type: VOTE_UP,
+      payload: {
+        id,
+      },
+    },
+  };
+}
+
+export function voteCardDown(id) {
+  return {
+    [SEND_SOCKET]: {
+      type: VOTE_DOWN,
+      payload: {
+        id,
+      },
+    },
+  };
+}
+
 export function toggleDropdown(id) {
   return (dispatch, getState) => {
     const val = getState().cards.getIn([id, 'showDropdown'], false);
@@ -68,6 +93,12 @@ export function toggleDropdown(id) {
         val: !val,
       },
     });
+  };
+}
+
+export function closeDropdowns() {
+  return {
+    type: CLOSE_CARD_DROPDOWNS,
   };
 }
 
@@ -90,4 +121,7 @@ export default {
   revealEditCard,
   saveCard,
   toggleDropdown,
+  closeDropdowns,
+  voteCardUp,
+  voteCardDown,
 };

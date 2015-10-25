@@ -31,6 +31,7 @@ app.use(passport.session());
 app.use(express.static(path.normalize(__dirname + '/../')));
 
 if (!isProduction) {
+  console.log('Not in production mode, compiling application using Webpack...');
   require('./utils/bundler')(app);
 }
 
