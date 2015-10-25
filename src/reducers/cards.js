@@ -7,7 +7,7 @@ import {
   ON_MOVE_CARD,
   ON_DELETE_CARD,
   ON_EDIT_CARD,
-  ON_ADD_STICKER,
+  ON_UPDATE_VOTES,
   MOVE_CARD,
   DELETE_CARD,
   EDIT_CARD,
@@ -16,6 +16,7 @@ import {
 import {
   REVEAL_EDIT_CARD,
   TOGGLE_CARD_DROPDOWN,
+  CLOSE_CARD_DROPDOWNS,
 } from '../constants';
 
 const initializeCards = (state, payload) => {
@@ -45,16 +46,17 @@ const saveCard = (state, payload) => {
   });
 };
 
-const revealEdit = (state, id) => state.setIn([id, 'isEditing'], true);
-const deleteCard = (state, payload) => state.delete(payload.id);
-
-const addSticker = (state, payload) => {
-  return state.updateIn([payload.id, 'sticker'], i => {
-    return i.push(payload.stickerId);
+const updateVotes = (state, payload) => {
+  return state.mergeIn([payload.id], {
+    votes: payload.votes,
   });
 };
 
+const revealEdit = (state, id) => state.setIn([id, 'isEditing'], true);
+const deleteCard = (state, payload) => state.delete(payload.id);
+
 const toggleDropdown = (state, id, bool) => state.setIn([id, 'showDropdown'], bool);
+const closeDropdowns = (state) => state.map(i => i.set('showDropdown', false));
 
 const INITIAL_STATE = fromJS({});
 
@@ -64,12 +66,13 @@ const cardsReducer = handleActions({
   [ON_MOVE_CARD]: (state, { payload }) => moveCard(state, payload),
   [ON_DELETE_CARD]: (state, { payload }) => deleteCard(state, payload),
   [ON_EDIT_CARD]: (state, { payload }) => saveCard(state, payload),
+  [ON_UPDATE_VOTES]: (state, { payload }) => updateVotes(state, payload),
   [MOVE_CARD]: (state, { payload }) => moveCard(state, payload),
   [DELETE_CARD]: (state, { payload }) => deleteCard(state, payload),
   [EDIT_CARD]: (state, { payload }) => saveCard(state, payload),
   [REVEAL_EDIT_CARD]: (state, { payload }) => revealEdit(state, payload.id),
   [TOGGLE_CARD_DROPDOWN]: (state, { payload }) => toggleDropdown(state, payload.id, payload.val),
-  [ON_ADD_STICKER]: (state, { payload }) => addSticker(state, payload),
+  [CLOSE_CARD_DROPDOWNS]: (state) => closeDropdowns(state),
 }, INITIAL_STATE);
 
 export default cardsReducer;

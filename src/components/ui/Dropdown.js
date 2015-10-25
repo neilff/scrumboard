@@ -20,6 +20,7 @@ export default class Dropdown {
 
     return (
       <div
+        onClick={ (e) => e.stopPropagation() }
         className="absolute border left-align p1 bg-white"
         style={{ ...styles.base, ...dropdownStyle }}>
         { children }
@@ -33,6 +34,7 @@ const styles = {
     top: '25px',
     left: '-24px',
     minWidth: '180px',
+    zIndex: 999,
   },
   dropdownHidden: {
     visibility: 'hidden',

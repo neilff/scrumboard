@@ -18,8 +18,7 @@ function onCreateCard(client, data) {
     x: 0,
     y: 0,
     rot: 0,
-    colour: 'green',
-    sticker: null,
+    votes: {}
   };
 
   getRoom(client, (room) => {

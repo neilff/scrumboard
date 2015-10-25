@@ -16,7 +16,7 @@ function configureRoutes(app, io) {
     (req, res, next) => {
       console.log('User is going to :: ', req.query.returnLocation);
 
-      if (req.query.returnLocation !== '/') {
+      if (req.query.returnLocation && req.query.returnLocation !== '/') {
         req.session.returnLocation = req.query.returnLocation;
       }
 

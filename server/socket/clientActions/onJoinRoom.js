@@ -7,12 +7,18 @@ import {
   ON_ROOM_ACCEPT
 } from '../../../shared';
 
-import DEFAULT_SETTINGS from '../config';
+import DEFAULT_SETTINGS from '../../../shared/settings';
 import { isDefined } from '../../utils';
-
 import { roomClients } from '../../lib/rooms';
 import { joinRoom } from '../serverActions';
 import { DB } from '../index';
+
+const defaultRoomSettings = DEFAULT_SETTINGS.roomSettings.reduce((acc, i) => {
+  acc[i.id] = i.defaultValue;
+  return acc;
+}, {});
+
+console.log('defaultRoomSettings :: ', defaultRoomSettings);
 
 function onJoinRoom(client, room) {
   joinRoom(client, room, () => {
@@ -49,7 +55,9 @@ function onJoinRoom(client, room) {
     DB.getSettings(room, (settings) => {
       client.json.send({
         action: ON_SET_CONFIG,
-        data: isDefined(settings) ? settings : DEFAULT_SETTINGS.roomSettings
+        data: isDefined(settings) ?
+          settings :
+          defaultRoomSettings
       });
     });
 
@@ -57,7 +65,9 @@ function onJoinRoom(client, room) {
     DB.getBoardSize(room, (size) => {
       client.json.send({
         action: ON_SET_BOARD_SIZE,
-        data: isDefined(size) ? size : DEFAULT_SETTINGS.boardSize
+        data: isDefined(size) ?
+          size :
+          DEFAULT_SETTINGS.boardSize
       });
     });
 

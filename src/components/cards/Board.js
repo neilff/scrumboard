@@ -36,6 +36,8 @@ class Board extends Component {
     revealEditCard: PropTypes.func.isRequired,
     toggleDropdown: PropTypes.func.isRequired,
     saveCard: PropTypes.func.isRequired,
+    voteCardUp: PropTypes.func.isRequired,
+    voteCardDown: PropTypes.func.isRequired,
   };
 
   moveBox(id, left, top) {
@@ -54,26 +56,24 @@ class Board extends Component {
       revealEditCard,
       toggleDropdown,
       saveCard,
+      voteCardUp,
+      voteCardDown,
     } = this.props;
 
-    const hideSourceOnDrag = false;
+    const hideSourceOnDrag = true;
 
     const cardList = cards.map(i => {
       return (
         <Card
-          isVisible={ i.get('isVisible', true) }
-          isEditing={ i.get('isEditing', false) }
-          isDropdownOpen={ i.get('showDropdown', false) }
           key={ i.get('id') }
-          id={ i.get('id') }
-          left={ i.get('x') }
-          top={ i.get('y') }
+          card={ i }
           hideSourceOnDrag={ hideSourceOnDrag }
           revealEditCard={ revealEditCard }
           deleteCard={ deleteCard }
           saveCard={ saveCard }
           toggleDropdown={ toggleDropdown }
-          text={ i.get('text', '') } />
+          voteCardUp={ voteCardUp }
+          voteCardDown={ voteCardDown } />
       );
     });
 

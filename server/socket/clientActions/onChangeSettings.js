@@ -2,24 +2,25 @@ import {
   ON_SET_CONFIG,
 } from '../../../shared';
 
+import { mapObj } from 'ramda';
 import { DB } from '../index';
+import { scrub } from '../../utils';
+import { getRoom } from '../serverActions';
+import { broadcastToRoom } from '../serverActions';
 
-const R = require('ramda');
-const scrub = require('../../utils').scrub;
-const getRoom = require('../serverActions').getRoom;
-const broadcastToRoommates = require('../serverActions').broadcastToRoommates;
+function onChangeSettings(client, data) {
+  console.log('onChangeSettings :: ', data);
 
-function onChangeTheme(client, data) {
   const cleanMessage = {
     action: ON_SET_CONFIG,
-    data: R.mapObj(i => scrub(i), data)
+    data: mapObj(i => scrub(i), data)
   };
 
   getRoom(client, (room) => {
     DB.setSettings(room, cleanMessage.data);
-  });
 
-  broadcastToRoommates(client, cleanMessage);
+    broadcastToRoom(room, cleanMessage);
+  });
 }
 
-module.exports = onChangeTheme;
+module.exports = onChangeSettings;

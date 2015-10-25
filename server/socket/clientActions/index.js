@@ -7,8 +7,8 @@ const onCreateColumn = require('./onCreateColumn');
 const onDeleteColumn = require('./onDeleteColumn');
 const onUpdateColumns = require('./onUpdateColumns');
 const onChangeSettings = require('./onChangeSettings');
-const onAddSticker = require('./onAddSticker');
 const onSetBoardSize = require('./onSetBoardSize');
+const onUpdateVotes = require('./onUpdateVotes');
 
 module.exports = {
   onCreateCard,
@@ -20,6 +20,6 @@ module.exports = {
   onDeleteColumn,
   onUpdateColumns,
   onChangeSettings,
-  onAddSticker,
   onSetBoardSize,
+  onUpdateVotes,
 };
