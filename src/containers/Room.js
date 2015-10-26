@@ -5,6 +5,7 @@ import roomSelector from '../selectors/room';
 import cardActions from '../actions/cards';
 import uiActions from '../actions/ui';
 import settingsActions from '../actions/settings';
+import userActions from '../actions/users';
 
 import Board from '../components/cards/Board';
 import UserList from '../components/users/UserList';
@@ -18,6 +19,7 @@ const Actions = {
   ...cardActions,
   ...uiActions,
   ...settingsActions,
+  ...userActions,
 };
 
 @connect(roomSelector, Actions)
@@ -40,6 +42,8 @@ class Room extends Component {
     voteCardDown: PropTypes.func.isRequired,
     closeMenus: PropTypes.func.isRequired,
     clearRoom: PropTypes.func.isRequired,
+    kickAllUsers: PropTypes.func.isRequired,
+    kickUser: PropTypes.func.isRequired,
   }
 
   onCloseDropdowns() {
@@ -67,6 +71,8 @@ class Room extends Component {
       clearRoom,
       usersListVisible,
       toggleCurrentUsers,
+      kickAllUsers,
+      kickUser,
     } = this.props;
 
     return (
@@ -80,13 +86,15 @@ class Room extends Component {
               toggleRoomSettings={ toggleRoomSettings }
               settings={ settings }
               changeSettings={ changeSettings }
-              clearRoom={ clearRoom } />
+              clearRoom={ clearRoom }
+              kickAllUsers={ kickAllUsers } />
           </div>
           <div className="flex-auto">
             <CreateCard createCard={ createCard } />
           </div>
           <div className="flex flex-end flex-center right-align">
             <UserList
+              kickUser={ kickUser }
               isVisible={ usersListVisible }
               toggleCurrentUsers={ toggleCurrentUsers }
               usersList={ usersList } />

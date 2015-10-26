@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
+import { partial } from 'ramda';
 
 import User from './User';
 
@@ -9,6 +10,7 @@ class UserList extends Component {
     usersList: PropTypes.object.isRequired,
     isVisible: PropTypes.bool.isRequired,
     toggleCurrentUsers: PropTypes.func.isRequired,
+    kickUser: PropTypes.func.isRequired,
   }
 
   render() {
@@ -16,12 +18,17 @@ class UserList extends Component {
       usersList,
       isVisible,
       toggleCurrentUsers,
+      kickUser,
     } = this.props;
 
     const elemList = usersList.map(i => {
+      const sid = i.get('sid');
+
       return (
         <User
-          key={ i.get('sid') }
+          key={ sid }
+          sid={ sid }
+          onClick={ partial(kickUser, [sid]) }
           displayName={ i.get('displayName') }
           profileImage={ i.getIn(['photos', '0', 'value']) } />
       );

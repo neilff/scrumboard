@@ -8,6 +8,7 @@ import { reduxReactRouter } from 'redux-router';
 
 import socketMiddleware from '../middleware/socket';
 import roomMiddleware from '../middleware/room';
+import clientMiddleware from '../middleware/client';
 
 import rootReducer from '../reducers';
 
@@ -37,6 +38,7 @@ export default function configureStore(routes, history, initialState = {}) {
       history,
     }),
     applyMiddleware(
+      clientMiddleware,
       roomMiddleware,
       socketMiddleware,
       thunkMiddleware,

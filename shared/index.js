@@ -22,11 +22,14 @@ export const ON_UPDATE_COLUMNS = '@@rangleScrumblr/ON_UPDATE_COLUMNS';
 export const ON_INIT_ROOMMATES = '@@rangleScrumblr/ON_INIT_ROOMMATES';
 export const ON_USER_JOIN = '@@rangleScrumblr/ON_USER_JOIN';
 export const ON_USER_LEAVE = '@@rangleScrumblr/ON_USER_LEAVE';
+export const ON_KICK_USER = '@@rangleScrumblr/ON_KICK_USER';
+export const ON_KICK_ALL_USERS = '@@rangleScrumblr/ON_KICK_ALL_USERS';
 export const ON_PROFILE_CHANGE = '@@rangleScrumblr/ON_PROFILE_CHANGE';
 
 // Rooms
 export const ON_ROOM_ACCEPT = '@@rangleScrumblr/ON_ROOM_ACCEPT';
 export const ON_ROOM_DENY = '@@rangleScrumblr/ON_ROOM_DENY';
+export const ON_CLEAR_ROOM = '@@rangleScrumblr/ON_CLEAR_ROOM';
 
 // Board
 export const ON_SET_BOARD_SIZE = '@@rangleScrumblr/ON_SET_BOARD_SIZE';
@@ -40,7 +43,6 @@ export const ON_SET_CONFIG = '@@rangleScrumblr/ON_SET_CONFIG';
 export const JOIN_ROOM = '@@rangleScrumblr/JOIN_ROOM';
 export const LEAVE_ROOM = '@@rangleScrumblr/LEAVE_ROOM';
 export const CLEAR_ROOM = '@@rangleScrumblr/CLEAR_ROOM';
-export const ON_CLEAR_ROOM = '@@rangleScrumblr/ON_CLEAR_ROOM';
 
 // Cards
 export const MOVE_CARD = '@@rangleScrumblr/MOVE_CARD';
@@ -58,3 +60,7 @@ export const UPDATE_COLUMNS = '@@rangleScrumblr/UPDATE_COLUMNS';
 // Settings
 export const SET_CONFIG = '@@rangleScrumblr/SET_CONFIG';
 export const SET_BOARD_SIZE = '@@rangleScrumblr/SET_BOARD_SIZE';
+
+// Users
+export const KICK_USER = '@@rangleScrumblr/KICK_USER';
+export const KICK_ALL_USERS = '@@rangleScrumblr/KICK_ALL_USERS';

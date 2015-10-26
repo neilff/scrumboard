@@ -10,6 +10,8 @@ import onChangeSettings from './onChangeSettings';
 import onSetBoardSize from './onSetBoardSize';
 import onUpdateVotes from './onUpdateVotes';
 import onClearRoom from './onClearRoom';
+import onKickAllUsers from './onKickAllUsers';
+import onKickUser from './onKickUser';
 
 module.exports = {
   onCreateCard,
@@ -24,4 +26,6 @@ module.exports = {
   onSetBoardSize,
   onUpdateVotes,
   onClearRoom,
+  onKickAllUsers,
+  onKickUser,
 };
