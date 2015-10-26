@@ -1,7 +1,4 @@
-// This is based on PubSubCore
-// https://github.com/PeterScott/pubsubcore/blob/master/pubsubcore.js
-
-// PubSubCore: Simple pub/sub library for Node.js and Socket.IO
+import { isDefined } from '../utils';
 
 var util = require('util');
 var sets = require('simplesets');
@@ -202,6 +199,16 @@ exports.broadcast_room = function(room, msg) {
     var clients = exports.roomClients(room);
     for (var i = 0; i < clients.length; i++)
 	clients[i].json.send(msg);
+};
+
+// Broadcast to a specific client in a room
+exports.broadcastToClient = (room, clientId, msg) => {
+  const clients = exports.roomClients(room);
+  const client = clients.find(i => i.id === clientId);
+
+  if (isDefined(client)) {
+    client.json.send(msg);
+  }
 };
 
 // Broadcast message to all the other clients that are in rooms with this client

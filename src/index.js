@@ -6,10 +6,10 @@ import { Route, IndexRoute } from 'react-router';
 import { ReduxRouter } from 'redux-router';
 import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 
-import createHashHistory from 'history/lib/createHashHistory';
-import configureStore from './store/configureStore';
+import history from './config/history';
+import configureStore from './config/store';
 import SocketActions from './actions/socket';
-import socket from './socket';
+import socket from './config/socket';
 
 import App from './containers/App';
 import Lobby from './containers/Lobby';
@@ -30,7 +30,6 @@ const routes = (
   </Route>
 );
 
-const history = createHashHistory();
 const store = configureStore(routes, history, window.__INITIAL_STATE__);
 const actions = bindActionCreators(SocketActions, store.dispatch);
 

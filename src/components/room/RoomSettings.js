@@ -4,6 +4,7 @@ import { fromJS } from 'immutable';
 import DEFAULT_SETTINGS from '../../../shared/settings';
 
 import RoomOption from './RoomOption';
+import RoomTrigger from './RoomTrigger';
 
 const roomSettings = fromJS(DEFAULT_SETTINGS.roomSettings);
 
@@ -15,6 +16,7 @@ class RoomSettings extends Component {
     changeSettings: PropTypes.func.isRequired,
     settings: PropTypes.object.isRequired,
     clearRoom: PropTypes.func.isRequired,
+    kickAllUsers: PropTypes.func.isRequired,
   }
 
   state = {
@@ -63,6 +65,7 @@ class RoomSettings extends Component {
       isVisible,
       toggleRoomSettings,
       clearRoom,
+      kickAllUsers,
     } = this.props;
 
     const state = this.state;
@@ -136,19 +139,13 @@ class RoomSettings extends Component {
             <div className="h4">Maintenance</div>
             <hr className="bg-silver mb2" />
 
-            <div className="flex flex-center mb2">
-              <div className="flex-auto h5">
-                Clear Room
-              </div>
-              <div className="flex-end">
-                <button
-                  type="button"
-                  onClick={ clearRoom }
-                  className="btn btn-outline black h6">
-                  Apply
-                </button>
-              </div>
-            </div>
+            <RoomTrigger
+              text={ 'Clear Room' }
+              onClick={ clearRoom } />
+
+            <RoomTrigger
+              text={ 'Kick All Users' }
+              onClick={ kickAllUsers } />
           </div>
         </div>
       </div>

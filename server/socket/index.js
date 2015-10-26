@@ -13,6 +13,8 @@ import {
   VOTE_UP,
   VOTE_DOWN,
   CLEAR_ROOM,
+  KICK_ALL_USERS,
+  KICK_USER,
 } from '../../shared';
 
 import sys from 'sys';
@@ -60,6 +62,8 @@ function configureSocket(io) {
         [VOTE_DOWN]: () => clientActions.onUpdateVotes(socket, data, 'dec'),
         [SET_BOARD_SIZE]: () => clientActions.onSetBoardSize(socket, data),
         [CLEAR_ROOM]: () => clientActions.onClearRoom(socket, data),
+        [KICK_ALL_USERS]: () => clientActions.onKickAllUsers(socket, data),
+        [KICK_USER]: () => clientActions.onKickUser(socket, data),
       };
 
       return actionMap[action] ?

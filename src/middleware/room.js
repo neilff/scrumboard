@@ -3,7 +3,7 @@ import {
   LEAVE_ROOM,
 } from '../../shared';
 
-import socket from '../socket';
+import socket from '../config/socket';
 
 const ROUTER_CHANGE = '@@reduxReactRouter/routerDidChange';
 
