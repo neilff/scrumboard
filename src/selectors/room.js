@@ -1,4 +1,4 @@
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import { createSelector } from 'reselect';
 
 const getUsers = state => state.users;
@@ -34,7 +34,7 @@ const roomSelector = createSelector(
 
         return acc.push(i.merge({
           'isVisible': isVisible,
-          'votes': i.get('votes').reduce((acc, i) => acc + i, 0)
+          'votes': i.get('votes', Map()).reduce((acc, i) => acc + i, 0)
         }));
       }, List()),
     };
