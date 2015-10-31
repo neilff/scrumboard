@@ -21,6 +21,11 @@ const roomSelector = createSelector(
   isPokerMode,
   (users, currentUser, router, ui, settings, cards, session, pokerMode) => {
     const sid = session.get('id');
+    const userMap = users.set(sid, Map({
+      sid: sid,
+      displayName: currentUser.get('displayName'),
+      photos: currentUser.get('photos', null),
+    }));
 
     return {
       usersList: users.toList().push(currentUser),
@@ -34,7 +39,15 @@ const roomSelector = createSelector(
 
         return acc.push(i.merge({
           'isVisible': isVisible,
-          'votes': i.get('votes', Map()).reduce((acc, i) => acc + i, 0)
+          'voteCount': i.get('votes', Map()).reduce((acc, i) => acc + i, 0),
+          'votes': i.get('votes', Map()).reduce((acc, i, idx) => {
+            return acc.push(Map({
+              sid: idx,
+              count: i,
+              displayName: userMap.getIn([idx, 'displayName'], null),
+              profileImage: userMap.getIn([idx, 'photos', 0, 'value'], null),
+            }));
+          }, List())
         }));
       }, List()),
     };
