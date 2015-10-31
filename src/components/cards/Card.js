@@ -107,7 +107,7 @@ class Card extends Component {
         }}>
         <Vote
           cardId={ card.get('id') }
-          count={ card.get('votes') }
+          count={ card.get('voteCount') }
           voteUp={ voteCardUp }
           voteDown={ voteCardDown }
           style={{ ...voterStyle, ...styles.voter }} />

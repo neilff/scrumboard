@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+
 import Dropdown from '../ui/Dropdown';
+import VoteImage from './VoteImage';
 
 class CardMenu extends Component {
   static propTypes = {
@@ -26,6 +28,7 @@ class CardMenu extends Component {
 
   render() {
     const {
+      card,
       toggleDropdown,
       isDropdownOpen,
       isEditing,
@@ -44,11 +47,32 @@ class CardMenu extends Component {
           style={{ ...cardBtnStyle, ...styles.base }}>
         </button>
         <Dropdown isVisible={ isDropdownOpen }>
-          <h6>Card Actions</h6>
-          <ul className="list-reset">
+          <h5>Card Actions</h5>
+          <ul className="list-reset h6">
             <li>
               <a href onClick={ this.onDelete.bind(this) }>Remove Card</a>
             </li>
+          </ul>
+
+          <hr className="bg-silver mb2" />
+
+          <h5>Votes</h5>
+          <ul
+            style={ styles.voteList }
+            className="list-reset h6">
+            {
+              card.get('votes').map(i => {
+                return (
+                  <li style={ styles.voteItem }>
+                    <VoteImage
+                      sid={ i.get('sid') }
+                      count={ i.get('count') }
+                      displayName={ i.get('displayName') }
+                      profileImage={ i.get('profileImage') } />
+                  </li>
+                );
+              })
+            }
           </ul>
         </Dropdown>
       </div>
@@ -68,6 +92,11 @@ const styles = {
   },
   itemVisible: {
     opacity: '1',
+  },
+  voteList: {},
+  voteItem: {
+    display: 'inline-block',
+    paddingRight: '0.5rem',
   },
 };
 
